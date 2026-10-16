@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8-р анги - Агаарын даралт ба Өндрийн хамаарал</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #0f172a;
+            background-image: 
+                radial-gradient(at 20% 10%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 20%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 90%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #f1f5f9;
+        }
+        .aurora-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+        .aurora-bg::before, .aurora-bg::after {
+            content: ''; position: absolute; width: 60vw; height: 60vw; border-radius: 50%;
+            filter: blur(120px); opacity: 0.35; animation: auroraMove 20s ease-in-out infinite;
+        }
+        .aurora-bg::before { background: radial-gradient(circle, #3b82f6 0%, transparent 70%); top: -20vw; left: -20vw; }
+        .aurora-bg::after { background: radial-gradient(circle, #8b5cf6 0%, transparent 70%); bottom: -20vw; right: -20vw; animation-delay: -10s; animation-direction: reverse; }
+        @keyframes auroraMove { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(5vw, 3vw) scale(1.15); } }
+        .glass-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.75) 0%, rgba(15, 23, 42, 0.6) 100%);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover { border-color: rgba(59, 130, 246, 0.3); box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.5), 0 0 40px -10px rgba(59, 130, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+        .custom-slider { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 8px; outline: none; }
+        .custom-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); cursor: pointer; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2), 0 4px 15px rgba(59, 130, 246, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4); border: 2px solid rgba(255, 255, 255, 0.9); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .custom-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+        .nav-btn { position: relative; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
+        .nav-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); opacity: 0; transition: opacity 0.25s; z-index: -1; }
+        .nav-btn:hover::before { opacity: 0.15; }
+        .nav-btn.active { background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%); color: #ffffff; box-shadow: 0 8px 24px -4px rgba(59, 130, 246, 0.5), 0 0 0 1px rgba(99, 102, 241, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2); transform: translateY(-1px); }
+        .metric-card { position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .metric-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, currentColor, transparent); opacity: 0.5; }
+        .metric-card:hover { transform: translateY(-3px); }
+        .metric-card-blue { background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%); border: 1px solid rgba(59, 130, 246, 0.25); color: #60a5fa; }
+        .metric-card-amber { background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%); border: 1px solid rgba(245, 158, 11, 0.25); color: #fbbf24; }
+        .metric-card-emerald { background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%); border: 1px solid rgba(16, 185, 129, 0.25); color: #34d399; }
+        .metric-card-rose { background: linear-gradient(135deg, rgba(244, 63, 94, 0.15) 0%, rgba(244, 63, 94, 0.05) 100%); border: 1px solid rgba(244, 63, 94, 0.25); color: #fb7185; }
+        .metric-card-indigo { background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0.05) 100%); border: 1px solid rgba(99, 102, 241, 0.25); color: #a5b4fc; }
+        .action-btn { position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .action-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent); transform: translateX(-100%); transition: transform 0.6s; }
+        .action-btn:hover::after { transform: translateX(100%); }
+        .action-btn:hover { transform: translateY(-2px); }
+        .action-btn:active { transform: translateY(0); }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+        .float-anim { animation: float 3s ease-in-out infinite; }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.4), 0 0 20px rgba(59, 130, 246, 0.2); } 50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.3); } }
+        .pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
+        @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+        .shimmer-text { background: linear-gradient(90deg, #93c5fd 0%, #ffffff 50%, #a5b4fc 100%); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 4s linear infinite; }
+        .canvas-wrapper { position: relative; border-radius: 16px; overflow: hidden; box-shadow: inset 0 0 60px rgba(59, 130, 246, 0.15), 0 20px 40px -20px rgba(0, 0, 0, 0.6); border: 1px solid rgba(59, 130, 246, 0.2); }
+        .canvas-wrapper::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 30%), radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.1), transparent 60%); }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(30, 41, 59, 0.5); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #3b82f6, #8b5cf6); border-radius: 8px; }
+        .scrollbar-none::-webkit-scrollbar { display: none; }
+        .header-glow { box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(148, 163, 184, 0.1) inset, 0 -1px 40px rgba(59, 130, 246, 0.15); }
+        .stat-value { font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+        .leaderboard-row { transition: all 0.2s; }
+        .leaderboard-row:hover { background: rgba(59, 130, 246, 0.1); }
+        .quiz-card { animation: slideIn 0.4s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .quiz-feedback { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <div class="aurora-bg"></div>
+
+    <!-- Header -->
+    <header class="relative header-glow backdrop-blur-2xl bg-slate-900/70 border-b border-slate-800/60 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 md:py-5 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3.5">
+                <div class="relative p-3 bg-gradient-to-br from-blue-500/30 to-indigo-500/20 rounded-2xl border border-blue-400/30 backdrop-blur-md">
+                    <i class="fa-solid fa-wind text-2xl text-blue-300 relative z-10"></i>
+                    <div class="absolute inset-0 rounded-2xl pulse-glow"></div>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-gradient-to-r from-amber-400 to-orange-400 text-slate-900 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-md shadow-lg shadow-amber-500/20">
+                            Интерактив Лаборатори
+                        </span>
+                        <span class="text-xs text-blue-300/80 font-semibold tracking-wide">Физик 8-р анги</span>
+                    </div>
+                    <h1 class="text-lg md:text-xl font-extrabold tracking-tight mt-1 shimmer-text">
+                        Агаарын даралт ба Өндрийн хамаарал
+                    </h1>
+                </div>
+            </div>
+
+            <!-- User greeting area -->
+            <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-semibold">
+                <div id="userGreeting" class="hidden bg-gradient-to-r from-emerald-500/20 to-teal-500/15 border border-emerald-400/40 text-emerald-200 px-4 py-2 rounded-xl flex items-center gap-2 backdrop-blur-md shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-user-graduate text-emerald-300"></i>
+                    <span>Сайн байна уу, <b id="greetingName" class="text-white"></b>!</span>
+                </div>
+                <span class="bg-blue-500/10 border border-blue-400/30 text-blue-200 px-3 py-1.5 rounded-xl flex items-center gap-1.5 backdrop-blur-md">
+                    <i class="fa-solid fa-mountain text-amber-300"></i> Өндрийн нөлөө
+                </span>
+                <span class="bg-indigo-500/10 border border-indigo-400/30 text-indigo-200 px-3 py-1.5 rounded-xl flex items-center gap-1.5 backdrop-blur-md">
+                    <i class="fa-solid fa-flask text-cyan-300"></i> 4 бодит туршилт
+                </span>
+            </div>
+        </div>
+
+        <div class="bg-slate-950/50 border-t border-slate-800/60 backdrop-blur-md">
+            <div class="max-w-7xl mx-auto px-4">
+                <nav class="flex overflow-x-auto py-2.5 gap-2 text-xs md:text-sm font-semibold scrollbar-none">
+                    <button onclick="switchTab('tabGlass')" id="btnTabGlass" class="nav-btn active px-4 py-2.5 rounded-xl transition flex items-center gap-2 whitespace-nowrap">
+                        <i class="fa-solid fa-glass-water"></i> 1. Аяга & Цаас
+                    </button>
+                    <button onclick="switchTab('tabCan')" id="btnTabCan" class="nav-btn px-4 py-2.5 rounded-xl text-slate-400 hover:text-white transition flex items-center gap-2 whitespace-nowrap">
+                        <i class="fa-solid fa-bottle-water"></i> 2. Сав агшина
+                    </button>
+                    <button onclick="switchTab('tabNewspaper')" id="btnTabNewspaper" class="nav-btn px-4 py-2.5 rounded-xl text-slate-400 hover:text-white transition flex items-center gap-2 whitespace-nowrap">
+                        <i class="fa-solid fa-newspaper"></i> 3. Сонин + CD
+                    </button>
+                    <button onclick="switchTab('tabBook')" id="btnTabBook" class="nav-btn px-4 py-2.5 rounded-xl text-slate-400 hover:text-white transition flex items-center gap-2 whitespace-nowrap">
+                        <i class="fa-solid fa-book-open"></i> 4. Дэвтэр нийлүүлэх
+                    </button>
+                    <button onclick="switchTab('tabAlt')" id="btnTabAlt" class="nav-btn px-4 py-2.5 rounded-xl text-slate-400 hover:text-white transition flex items-center gap-2 whitespace-nowrap">
+                        <i class="fa-solid fa-mountain"></i> 5. Мах чанах (Өндөр ба Даралт)
+                    </button>
+                    <button onclick="switchTab('tabQuiz')" id="btnTabQuiz" class="nav-btn px-4 py-2.5 rounded-xl text-slate-400 hover:text-white transition flex items-center gap-2 whitespace-nowrap">
+                        <i class="fa-solid fa-circle-question"></i> 6. Дүгнэлт
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-6 w-full grow relative">
+
+        <!-- ================= ALTITUDE ================= -->
+        <section id="tabAlt" class="space-y-6 hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-7 glass-card rounded-3xl p-5 md:p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                            <h2 class="font-bold text-white text-base flex items-center gap-2.5">
+                                <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                                    <i class="fa-solid fa-cloud text-white text-sm"></i>
+                                </span>
+                                Туршилт 5: Уул дээр мах чанах
+                            </h2>
+                            <span id="dispAltBadge" class="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-200 text-xs font-bold px-3.5 py-1.5 rounded-full border border-blue-400/30 backdrop-blur-md">
+                                Өндөр: 0 м
+                            </span>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="canvasAlt" width="600" height="340" class="w-full h-auto block"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-3 mt-5">
+                        <div class="metric-card metric-card-blue rounded-2xl p-3.5 text-center">
+                            <div class="text-[10px] font-bold uppercase tracking-wider opacity-80">Даралт</div>
+                            <div id="dispPresVal" class="text-lg md:text-xl font-extrabold text-blue-300 stat-value mt-1">101.3 кПа</div>
+                        </div>
+                        <div class="metric-card metric-card-amber rounded-2xl p-3.5 text-center">
+                            <div class="text-[10px] font-bold uppercase tracking-wider opacity-80">Мах болох хугацаа</div>
+                            <div id="dispDensityVal" class="text-lg md:text-xl font-extrabold text-amber-300 stat-value mt-1">100%</div>
+                        </div>
+                        <div class="metric-card metric-card-emerald rounded-2xl p-3.5 text-center">
+                            <div class="text-[10px] font-bold uppercase tracking-wider opacity-80">Буцлах T°</div>
+                            <div id="dispBoilVal" class="text-lg md:text-xl font-extrabold text-emerald-300 stat-value mt-1">100 °C</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex flex-col gap-5">
+                    <div class="glass-card rounded-3xl p-5 md:p-6 space-y-5">
+                        <h3 class="font-bold text-white text-sm flex items-center gap-2 border-b border-slate-700/50 pb-3">
+                            <i class="fa-solid fa-sliders text-blue-400"></i> Өндрийг өөрчлөх
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center text-xs font-bold">
+                                <span class="text-slate-400">Өндрийн хэмжээ (0 - 8000м)</span>
+                                <span id="dispSliderAltText" class="text-blue-300 bg-blue-500/20 px-3 py-1 rounded-lg border border-blue-400/30 stat-value">0 м</span>
+                            </div>
+                            <input type="range" id="sliderAltVal" min="0" max="8000" value="0" step="100" class="w-full custom-slider cursor-pointer">
+                            <div class="flex justify-between text-[10px] text-slate-500 font-semibold">
+                                <span>🌊 0м</span>
+                                <span>⛰️ 4000м</span>
+                                <span>🏔️ 8000м</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 text-xs pt-2">
+                            <button onclick="setAltPreset(0)" class="action-btn p-2.5 bg-slate-800/60 hover:bg-slate-700/60 font-bold rounded-xl border border-slate-700/60 transition text-slate-200 flex items-center justify-center gap-1.5">
+                                🌊 Далай (0м)
+                            </button>
+                            <button onclick="setAltPreset(1350)" class="action-btn p-2.5 bg-slate-800/60 hover:bg-slate-700/60 font-bold rounded-xl border border-slate-700/60 transition text-slate-200 flex items-center justify-center gap-1.5">
+                                🏙️ УБ (1350м)
+                            </button>
+                            <button onclick="setAltPreset(4374)" class="action-btn p-2.5 bg-slate-800/60 hover:bg-slate-700/60 font-bold rounded-xl border border-slate-700/60 transition text-slate-200 flex items-center justify-center gap-1.5">
+                                🏔️ Таван Богд
+                            </button>
+                            <button onclick="setAltPreset(8000)" class="action-btn p-2.5 bg-slate-800/60 hover:bg-slate-700/60 font-bold rounded-xl border border-slate-700/60 transition text-slate-200 flex items-center justify-center gap-1.5">
+                                🏔️ Эверест
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-3xl p-5 md:p-6 bg-gradient-to-br from-blue-500/10 to-indigo-500/5 border border-blue-500/20 space-y-3">
+                        <h4 class="font-bold text-blue-200 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Өндөрт гарахад юу өөрчлөгдөх вэ?
+                        </h4>
+                        <ul class="text-xs text-slate-300 space-y-2.5 leading-relaxed">
+                            <li class="flex items-start gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></span>
+                                <span><b class="text-white">Агаарын даралт ба Молекул:</b> Өндөр ахих тусам татах хүч ба дээрээс дарах агаарын багана багасч, агаар сийрэгжин даралт буурна.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 flex-shrink-0"></span>
+                                <span><b class="text-white">Мах чанах:</b> Ус бага хэмд буцалдаг тул хайруулын данх дахь мах удаан болж, өндөр уулын оройд бүр болохгүй.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0"></span>
+                                <span><b class="text-white">Усны буцлах T°:</b> Гаднах даралт багасах тусам ус бага хэмд буцална (Эверест орчим ≈ 74°C). Буцалж буй усны хэм үүнээс халахгүй.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= EXPERIMENT 1: CAN CRUSH ================= -->
+        <section id="tabCan" class="space-y-6 hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-7 glass-card rounded-3xl p-5 md:p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                            <h2 class="font-bold text-white text-base flex items-center gap-2.5">
+                                <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center shadow-lg shadow-rose-500/30">
+                                    <i class="fa-solid fa-fire text-white text-sm"></i>
+                                </span>
+                                Туршилт 2: Хуванцар сав агшина
+                            </h2>
+                            <span id="badgeCanState" class="bg-blue-500/20 text-blue-200 text-xs font-bold px-3.5 py-1.5 rounded-full border border-blue-400/30 backdrop-blur-md">
+                                Хэвийн төлөв
+                            </span>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="canvasCan" width="700" height="420" class="w-full h-auto block"></canvas>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-3 mt-5">
+                        <div class="metric-card metric-card-amber rounded-2xl p-3.5 text-center">
+                            <div class="text-[10px] font-bold uppercase tracking-wider opacity-80">Доторх T°</div>
+                            <div id="dispCanTemp" class="text-lg md:text-xl font-extrabold text-amber-300 stat-value mt-1">20 °C</div>
+                        </div>
+                        <div class="metric-card metric-card-blue rounded-2xl p-3.5 text-center">
+                            <div class="text-[10px] font-bold uppercase tracking-wider opacity-80">Дотоод P</div>
+                            <div id="dispCanInPres" class="text-lg md:text-xl font-extrabold text-blue-300 stat-value mt-1">101.3</div>
+                        </div>
+                        <div class="metric-card metric-card-rose rounded-2xl p-3.5 text-center">
+                            <div class="text-[10px] font-bold uppercase tracking-wider opacity-80">Гаднах P</div>
+                            <div id="dispCanOutPres" class="text-lg md:text-xl font-extrabold text-rose-300 stat-value mt-1">101.3</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex flex-col gap-5">
+                    <div class="glass-card rounded-3xl p-5 md:p-6 space-y-3.5">
+                        <h3 class="font-bold text-white text-sm border-b border-slate-700/50 pb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-play text-blue-400"></i> Туршилтын дараалал
+                        </h3>
+                        <button onclick="heatCan()" class="action-btn w-full py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-900 font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-amber-500/30">
+                            <i class="fa-solid fa-fire"></i> 1. Халуун ус хийх
+                        </button>
+                        <button onclick="coolCan()" class="action-btn w-full py-3.5 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-400 hover:to-cyan-400 text-white font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30">
+                            <i class="fa-solid fa-snowflake"></i> 2. Таглаж хүйтэн усанд дүрэх
+                        </button>
+                        <button onclick="resetCan()" class="action-btn w-full py-2.5 bg-slate-800/60 hover:bg-slate-700/60 text-slate-300 font-bold text-xs rounded-xl transition border border-slate-700/60">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Дахин эхлүүлэх
+                        </button>
+                    </div>
+
+                    <div class="glass-card rounded-3xl p-5 md:p-6 bg-gradient-to-br from-blue-500/10 to-indigo-500/5 border border-blue-500/20 space-y-3">
+                        <h4 class="font-bold text-blue-200 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Физик тайлбар
+                        </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Халуун ус хийхэд савны доторх агаар халж тэлж (сав бага зэрэг тэлнэ), ус ууршин <b class="text-white">халуун уур</b> бий болно. Савыг таглаад хүйтэн усанд дүрэхэд уур хөрч шингэн болж, агаар хөрч агших тул доторх даралт огцом буурна. Гаднах <b class="text-white">атмосферийн даралт</b> (101.3 кПа) үүнээс их болсон тул хуванцар савыг дотогш нь шахаж <b class="text-white">агшина</b>.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= EXPERIMENT 2: INVERTED GLASS ================= -->
+        <section id="tabGlass" class="space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-7 glass-card rounded-3xl p-5 md:p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                            <h2 class="font-bold text-white text-base flex items-center gap-2.5">
+                                <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+                                    <i class="fa-solid fa-glass-water text-white text-sm"></i>
+                                </span>
+                                Туршилт 1: Аяга & Цаас
+                            </h2>
+                            <span id="badgeGlassAngle" class="bg-cyan-500/20 text-cyan-200 text-xs font-bold px-3.5 py-1.5 rounded-full border border-cyan-400/30 backdrop-blur-md">
+                                Босоо (0°)
+                            </span>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="canvasGlass" width="700" height="420" class="w-full h-auto block"></canvas>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mt-5">
+                        <div class="metric-card metric-card-rose rounded-2xl p-3.5 text-center">
+                            <div class="text-[10px] font-bold uppercase tracking-wider opacity-80">1. Усны хүнд (⬇️)</div>
+                            <div id="dispWaterWeight" class="text-lg md:text-xl font-extrabold text-rose-300 stat-value mt-1">~ 2.5 Н</div>
+                        </div>
+                        <div class="metric-card metric-card-emerald rounded-2xl p-3.5 text-center">
+                            <div class="text-[10px] font-bold uppercase tracking-wider opacity-80">2. Агаарын хүч (⬆️)</div>
+                            <div id="dispUpAtmForce" class="text-lg md:text-xl font-extrabold text-emerald-300 stat-value mt-1">~ 300 Н</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex flex-col gap-5">
+                    <div class="glass-card rounded-3xl p-5 md:p-6 space-y-4">
+                        <h3 class="font-bold text-white text-sm border-b border-slate-700/50 pb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-rotate text-cyan-400"></i> Аяганы эргэх өнцөг
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center text-xs font-bold">
+                                <span class="text-slate-400">Налуугийн өнцөг</span>
+                                <span id="dispAngleVal" class="text-cyan-300 bg-cyan-500/20 px-3 py-1 rounded-lg border border-cyan-400/30 stat-value">0°</span>
+                            </div>
+                            <input type="range" id="sliderGlassAngle" min="0" max="180" value="0" step="5" class="w-full custom-slider cursor-pointer">
+                        </div>
+                        <button onclick="flipGlassQuick()" class="action-btn w-full py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/30">
+                            <i class="fa-solid fa-rotate-right"></i> Шууд 180° хөмрөх
+                        </button>
+                        <button id="removePaperBtn" onclick="removePaper()" class="action-btn w-full py-2.5 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-400 hover:to-pink-400 text-white font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-rose-500/30">
+                            <i class="fa-solid fa-hand"></i> Цаасыг авах
+                        </button>
+                        <button onclick="resetGlass()" class="action-btn w-full py-2 bg-slate-800/60 hover:bg-slate-700/60 text-slate-300 font-bold text-xs rounded-xl transition border border-slate-700/60">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Дахин эхлүүлэх
+                        </button>
+                    </div>
+
+                    <div class="glass-card rounded-3xl p-5 md:p-6 bg-gradient-to-br from-cyan-500/10 to-blue-500/5 border border-cyan-500/20 space-y-3">
+                        <h4 class="font-bold text-cyan-200 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Юуг мэдрэх вэ?
+                        </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Агаарын даралт зөвхөн доошоо биш, <b class="text-white">бүх чиглэлд (доороос дээшээ ч гэсэн)</b> үйлчилж, цаасыг доороос нь асар их хүчээр (300 Н) тулан дээш түлхэж байдаг тул цаас ба ус асгарахгүй тогтдог!
+                        </p>
+                        <div class="bg-slate-900/60 rounded-xl p-3 border border-rose-500/30 space-y-1.5">
+                            <div class="text-[10px] text-rose-300 font-bold uppercase tracking-wider">⚠️ Цаасыг авахад юу болох вэ?</div>
+                            <p class="text-xs text-slate-300">Цаасыг авмагц агаарын даралт усыг дарах гадаргуу алга болж, <b class="text-white">ус хүндийн хүчээр доош асгарна!</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= EXPERIMENT 3: BOOK ================= -->
+        <section id="tabBook" class="space-y-6 hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-7 glass-card rounded-3xl p-5 md:p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                            <h2 class="font-bold text-white text-base flex items-center gap-2.5">
+                                <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                                    <i class="fa-solid fa-book-open text-white text-sm"></i>
+                                </span>
+                                Туршилт 4: Дэвтэр нийлүүлэх
+                            </h2>
+                            <span id="badgeBookState" class="bg-indigo-500/20 text-indigo-200 text-xs font-bold px-3.5 py-1.5 rounded-full border border-indigo-400/30 backdrop-blur-md">
+                                5 хуудас нийлүүлсэн
+                            </span>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="canvasBook" width="700" height="420" class="w-full h-auto block"></canvas>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-3 mt-5">
+                        <div class="metric-card metric-card-indigo rounded-2xl p-3.5 text-center">
+                            <div class="text-[10px] font-bold uppercase tracking-wider opacity-80">Хуудас</div>
+                            <div id="dispPageCount" class="text-lg md:text-xl font-extrabold text-indigo-300 stat-value mt-1">5</div>
+                        </div>
+                        <div class="metric-card metric-card-amber rounded-2xl p-3.5 text-center">
+                            <div class="text-[10px] font-bold uppercase tracking-wider opacity-80">Татах хүч</div>
+                            <div id="dispPullForce" class="text-lg md:text-xl font-extrabold text-amber-300 stat-value mt-1">0 Н</div>
+                        </div>
+                        <div class="metric-card metric-card-rose rounded-2xl p-3.5 text-center">
+                            <div class="text-[10px] font-bold uppercase tracking-wider opacity-80">Салгах хүч</div>
+                            <div id="dispReqForce" class="text-lg md:text-xl font-extrabold text-rose-300 stat-value mt-1">125 Н</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex flex-col gap-5">
+                    <div class="glass-card rounded-3xl p-5 md:p-6 space-y-4">
+                        <h3 class="font-bold text-white text-sm border-b border-slate-700/50 pb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-sliders text-indigo-400"></i> Тохируулга ба Татах
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-xs font-bold">
+                                <span class="text-slate-400">Нийлүүлэх хуудасны тоо</span>
+                                <span id="dispSliderPagesVal" class="text-indigo-300 bg-indigo-500/20 px-3 py-1 rounded-lg border border-indigo-400/30 stat-value">5</span>
+                            </div>
+                            <input type="range" id="sliderPages" min="1" max="25" value="5" class="w-full custom-slider cursor-pointer">
+                        </div>
+                        <div class="space-y-3 pt-2">
+                            <div class="flex justify-between text-xs font-bold">
+                                <span class="text-slate-400">Татах хүч (Ньютон)</span>
+                                <span id="dispSliderPullVal" class="text-indigo-300 bg-indigo-500/20 px-3 py-1 rounded-lg border border-indigo-400/30 stat-value">0 Н</span>
+                            </div>
+                            <input type="range" id="sliderPull" min="0" max="2000" value="0" step="10" class="w-full custom-slider cursor-pointer">
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-3xl p-5 md:p-6 bg-gradient-to-br from-indigo-500/10 to-purple-500/5 border border-indigo-500/20 space-y-3">
+                        <h4 class="font-bold text-indigo-200 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Физик зарчим
+                        </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Хуудас бүрийн хоорондох агаар шахагдахад <b class="text-white">гаднах агаарын даралт</b> бүх хуудсыг дээрээс ба доороос нь асар их хүчээр тулан шахаж, гадаргуу хоорондын үрэлтийн хүчийг огцом ихэсгэдэг тул хоёр дэвтэр салахгүй наалддаг!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= EXPERIMENT 4: NEWSPAPER + CD ================= -->
+        <section id="tabNewspaper" class="space-y-6 hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-7 glass-card rounded-3xl p-5 md:p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                            <h2 class="font-bold text-white text-base flex items-center gap-2.5">
+                                <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center shadow-lg shadow-amber-500/30"><i class="fa-solid fa-newspaper text-white text-sm"></i></span>
+                                Туршилт 3: Агаарын дарах хүчийг мэдэрч үзье
+                            </h2>
+                            <span id="badgePaperState" class="bg-amber-500/20 text-amber-200 text-xs font-bold px-3.5 py-1.5 rounded-full border border-amber-400/30 backdrop-blur-md">Бэлэн</span>
+                        </div>
+                        <div class="canvas-wrapper"><canvas id="canvasNewspaper" width="700" height="420" class="w-full h-auto block"></canvas></div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-3 mt-5">
+                        <div class="metric-card metric-card-amber rounded-2xl p-3.5 text-center"><div class="text-[10px] font-bold uppercase tracking-wider opacity-80">Сонины талбай</div><div id="dispPaperArea" class="text-lg md:text-xl font-extrabold text-amber-300 stat-value mt-1">0.015 м²</div></div>
+                        <div class="metric-card metric-card-blue rounded-2xl p-3.5 text-center"><div class="text-[10px] font-bold uppercase tracking-wider opacity-80">Агаарын дарах хүч</div><div id="dispPaperForce" class="text-lg md:text-xl font-extrabold text-blue-300 stat-value mt-1">1,520 Н</div></div>
+                        <div class="metric-card metric-card-emerald rounded-2xl p-3.5 text-center"><div class="text-[10px] font-bold uppercase tracking-wider opacity-80">Татах хүч</div><div id="dispLiftForce" class="text-lg md:text-xl font-extrabold text-emerald-300 stat-value mt-1">600 Н</div></div>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 flex flex-col gap-5">
+                    <div class="glass-card rounded-3xl p-5 md:p-6 space-y-4">
+                        <h3 class="font-bold text-white text-sm border-b border-slate-700/50 pb-3 flex items-center gap-2"><i class="fa-solid fa-sliders text-amber-400"></i> Туршилтын тохиргоо</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-xs font-bold"><span class="text-slate-400">Сонины талбай — бага бол хөнгөн, их бол хүнд</span><span id="dispPaperAreaVal" class="text-amber-300 bg-amber-500/20 px-3 py-1 rounded-lg border border-amber-400/30 stat-value">0.015 м²</span></div>
+                            <input type="range" id="sliderPaperArea" min="0.002" max="0.02" value="0.015" step="0.001" class="w-full custom-slider cursor-pointer">
+                        </div>
+                        <div class="space-y-3 pt-2">
+                            <div class="flex justify-between text-xs font-bold"><span class="text-slate-400">Татах хүч (Н) — хүний хүч ≲ 1000 Н</span><span id="dispLiftForceVal" class="text-emerald-300 bg-emerald-500/20 px-3 py-1 rounded-lg border border-emerald-400/30 stat-value">600 Н</span></div>
+                            <input type="range" id="sliderLiftForce" min="0" max="1000" value="600" step="50" class="w-full custom-slider cursor-pointer">
+                        </div>
+                        <button onclick="pullNewspaper('fast')" class="action-btn w-full py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-900 font-extrabold text-xs rounded-xl flex items-center justify-center gap-2"><i class="fa-solid fa-bolt"></i> Утсыг татах</button>
+                        <button onclick="resetNewspaper()" class="action-btn w-full py-2.5 bg-slate-800/60 hover:bg-slate-700/60 text-slate-300 font-bold text-xs rounded-xl border border-slate-700/60"><i class="fa-solid fa-rotate-left mr-1"></i> Дахин эхлүүлэх</button>
+                    </div>
+                    <div class="glass-card rounded-3xl p-5 md:p-6 bg-gradient-to-br from-amber-500/10 to-yellow-500/5 border border-amber-500/20 space-y-3">
+                        <h4 class="font-bold text-amber-200 text-sm flex items-center gap-2"><i class="fa-solid fa-lightbulb text-amber-400"></i> Туршилтын явц</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed"><b class="text-white">Хэрэглэгдэхүүн:</b> цаасны хавчаар, CD, сонингийн цаас, утас. Сонингийн хуудасны төвд нь цоолоод нүхээр нь утсаа оруулна. Цаасны хавчаараар утсанд CD-г бэхэлнэ. Сонингоо ширээн дээр дэлгэж тэнийлгээд, утсыг дээш нь огцом чангаан татаж үзнэ.</p>
+                        <div class="bg-slate-900/60 rounded-xl p-3 border border-amber-500/30 space-y-1.5">
+                            <div class="text-[10px] text-amber-300 font-bold uppercase tracking-wider">Хэлэлцэх асуудал</div>
+                            <p class="text-xs text-slate-200">Сонинг дээш өргөхөд юу саад болж байна вэ?</p>
+                            <details class="text-xs text-slate-300"><summary class="cursor-pointer text-amber-300 font-bold">Хариуг харах</summary><p class="mt-1.5 leading-relaxed">Сонин дээрх <b class="text-white">агаарын даралт</b>. Огцом татахад сонины доор агаар орж амждаггүй, дээрээс нь P·S ≈ 101 300 Па × S хүч дарна.</p></details>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= QUIZ (MENTIMETER) ================= -->
+        <section id="tabQuiz" class="space-y-6 hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-5 glass-card rounded-3xl p-6 md:p-8 space-y-5">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30"><i class="fa-solid fa-ranking-star text-white text-2xl"></i></div>
+                    <h2 class="text-xl font-bold text-white">Сэдэл: Mentimeter</h2>
+                    <ol class="text-xs text-slate-300 space-y-1.5 list-decimal pl-4 leading-relaxed">
+                        <li>Доорх хэсэгт багшийн өгсөн кодыг (эсвэл холбоосыг) оруулна.</li>
+                        <li>«Mentimeter-т орох» товчийг дарна.</li>
+                        <li>Асуулт бүрт нээгдсэн цонхон дээр хариулна.</li>
+                    </ol>
+                    <div>
+                        <label for="mentiCode" class="text-xs font-bold text-slate-400 block mb-1.5">Mentimeter код эсвэл холбоос</label>
+                        <input type="text" id="mentiCode" placeholder="Ж: 1234 5678 эсвэл menti.com/..." class="w-full px-4 py-3 bg-slate-800/60 border border-slate-700/60 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-400/50">
+                        <p id="mentiErr" class="text-xs text-rose-400 mt-1.5 hidden">Кодоо оруулна уу!</p>
+                    </div>
+                    <button onclick="openMenti()" class="action-btn w-full py-3.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-extrabold text-sm rounded-xl flex items-center justify-center gap-2"><i class="fa-solid fa-arrow-up-right-from-square"></i> Mentimeter-т орох</button>
+                    <a href="https://www.menti.com" target="_blank" rel="noopener" class="block text-center text-xs text-blue-300 underline">menti.com нээх</a>
+                    <div class="pt-4 border-t border-slate-700/50 space-y-2">
+                        <h3 class="text-xs font-bold text-white">Багшид: Mentimeter-ээр дүгнэлт цуглуулах</h3>
+                        <ol class="text-xs text-slate-300 list-decimal pl-4 space-y-1.5">
+                            <li><b>Word Cloud:</b> «Агаарын даралтыг нэг үгээр тайлбарла»</li>
+                            <li><b>Poll:</b> «Таны таамаглал хэдэн туршилтад зөв байв?» (0–1 / 2–3 / 4–5)</li>
+                            <li><b>Open Ended:</b> «Хамгийн гайхсан туршилт аль нь вэ, яагаад?»</li>
+                            <li><b>Open Ended:</b> «Агаарын даралтын тухай нэг дүгнэлтээ бич»</li>
+                            <li><b>Ranking:</b> «Агаарын даралтыг хамгийн сайн нотолсон туршилтыг эрэмбэл»</li>
+                        </ol>
+                        <button id="btnCopyMenti" onclick="copyMentiQuestions()" class="action-btn px-4 py-2 bg-slate-800/60 border border-slate-700/60 text-slate-200 font-bold text-xs rounded-xl"><i class="fa-solid fa-copy mr-1"></i> Асуултуудыг хуулах</button>
+                    </div>
+                </div>
+                <div class="lg:col-span-7 glass-card rounded-3xl p-6 md:p-8 space-y-4">
+                    <div class="flex justify-between items-center flex-wrap gap-2">
+                        <h3 class="font-bold text-white text-sm flex items-center gap-2"><i class="fa-solid fa-chalkboard-user text-amber-400"></i> Дүгнэлт: туршилтаас юу ойлгов?</h3>
+                    </div>
+                    <div id="mentiList" class="space-y-3 max-h-[560px] overflow-y-auto pr-1"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="relative bg-slate-950/70 backdrop-blur-2xl border-t border-slate-800/60 text-slate-500 text-xs py-4">
+        <div class="max-w-7xl mx-auto px-4 text-center flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-atom text-blue-400/70"></i>
+                <span>8-р анги Физик — Агаарын даралт ба Өндрийн интерактив симуляци</span>
+            </div>
+            <div class="text-slate-600 flex items-center gap-1.5">
+                <i class="fa-solid fa-code text-slate-500"></i>
+                <span>Сургалтад зориулав · 2025</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const state = {
+            activeTab: 'tabGlass',
+            altMeters: 0,
+            canState: 'normal',
+            canTransition: 0,
+            canHeat: 0,
+            canSplashParticles: [],
+            glassAngle: 0,
+            glassWaterWave: 0,
+            glassPaperRemoved: false,
+            glassPaperFly: 0,
+            glassSpillProgress: 0,
+            glassSpillParticles: [],
+            bookPages: 5,
+            bookPull: 0,
+            newspaperArea: 0.015,
+            newspaperLiftForce: 0,
+            newspaperTransition: 0,
+            quizScore: 0,
+            quizAnswered: 0,
+            quizActive: false,
+            quizStartTime: null,
+            quizTimerInterval: null,
+            quizElapsedSeconds: 0,
+            currentQuestionIndex: 0,
+            studentName: '',
+            studentClass: '',
+            particles: [],
+            time: 0
+        };
+
+        // Leaderboard
+        let leaderboard = JSON.parse(localStorage.getItem('physicsLeaderboard') || '[]');
+
+        function saveLeaderboard() {
+            localStorage.setItem('physicsLeaderboard', JSON.stringify(leaderboard));
+        }
+
+        function addLeaderboardEntry(name, className, score, total, timeSeconds) {
+            // Remove existing entry with the same name+class (so re-taking updates)
+            leaderboard = leaderboard.filter(e => !(e.name === name && e.className === className));
+            leaderboard.push({
+                name: name,
+                className: className,
+                score: score,
+                total: total,
+                timeSeconds: timeSeconds,
+                timestamp: Date.now()
+            });
+            leaderboard.sort((a, b) => b.score - a.score || a.timeSeconds - b.timeSeconds);
+            if (leaderboard.length > 50) leaderboard = leaderboard.slice(0, 50);
+            saveLeaderboard();
+            renderLeaderboard();
+        }
+
+        function renderLeaderboard() {
+            const container = document.getElementById('leaderboardContainer');
+            if (!leaderboard.length) {
+                container.innerHTML = '<p class="text-xs text-slate-500 text-center py-8">Одоогоор оролцогч байхгүй байна</p>';
+                return;
+            }
+            container.innerHTML = leaderboard.map((entry, i) => {
+                const rankIcon = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`;
+                const mins = Math.floor(entry.timeSeconds / 60);
+                const secs = entry.timeSeconds % 60;
+                const timeStr = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                const pct = Math.round((entry.score / entry.total) * 100);
+                const barColor = pct >= 80 ? 'bg-emerald-400' : pct >= 50 ? 'bg-amber-400' : 'bg-rose-400';
+                return `
+                    <div class="leaderboard-row rounded-xl p-3 border border-slate-700/40 bg-slate-800/30">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm w-7 text-center">${rankIcon}</span>
+                                <div>
+                                    <div class="text-xs font-bold text-white">${entry.name}</div>
+                                    <div class="text-[10px] text-slate-400">${entry.className} анги</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xs font-extrabold text-blue-300">${entry.score}/${entry.total}</div>
+                                <div class="text-[10px] text-slate-400">${timeStr}</div>
+                            </div>
+                        </div>
+                        <div class="w-full bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
+                            <div class="h-full rounded-full ${barColor} transition-all duration-700" style="width: ${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function switchTabRaw(tabId) {
+            state.activeTab = tabId;
+            ['tabAlt', 'tabCan', 'tabGlass', 'tabBook', 'tabNewspaper', 'tabQuiz'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(tabId).classList.remove('hidden');
+
+            const btnMap = {
+                'tabAlt': 'btnTabAlt', 'tabCan': 'btnTabCan',
+                'tabGlass': 'btnTabGlass', 'tabBook': 'btnTabBook',
+                'tabNewspaper': 'btnTabNewspaper', 'tabQuiz': 'btnTabQuiz'
+            };
+            Object.keys(btnMap).forEach(k => {
+                const btn = document.getElementById(btnMap[k]);
+                btn.className = (k === tabId) ?
+                    "nav-btn active px-4 py-2.5 rounded-xl transition flex items-center gap-2 whitespace-nowrap" :
+                    "nav-btn px-4 py-2.5 rounded-xl text-slate-400 hover:text-white transition flex items-center gap-2 whitespace-nowrap";
+            });
+
+            if (tabId === 'tabAlt') drawAltSim();
+            if (tabId === 'tabCan') drawCan();
+            if (tabId === 'tabGlass') drawGlass();
+            if (tabId === 'tabBook') drawBook();
+            if (tabId === 'tabNewspaper') drawNewspaper();
+            if (tabId === 'tabQuiz') updatePredLines();
+        }
+
+        // ================= ALTITUDE SIMULATION =================
+        const canvasAlt = document.getElementById('canvasAlt');
+        const ctxAlt = canvasAlt.getContext('2d');
+
+        function initParticles() {
+            state.particles = [];
+            for (let i = 0; i < 80; i++) {
+                state.particles.push({
+                    x: Math.random(), y: Math.random(),
+                    vx: (Math.random() - 0.5) * 0.003,
+                    vy: (Math.random() - 0.5) * 0.003,
+                    size: Math.random() * 2 + 1.5
+                });
+            }
+        }
+
+        function drawAltSim() {
+            if (state.activeTab !== 'tabAlt') return;
+            const w = canvasAlt.width, h = canvasAlt.height;
+            const alt = state.altMeters;
+            state.time += 0.016;
+            ctxAlt.clearRect(0, 0, w, h);
+
+            const P0 = 101.3;
+            const currentP = P0 * Math.pow(0.88, alt / 1000);
+            const densityPct = Math.round((currentP / P0) * 100);
+            const boilTemp = Math.round(100 - (alt / 300));
+            const scale = Math.min(Math.pow(P0 / currentP, 0.35), 2.1);
+
+            const skyGradient = ctxAlt.createLinearGradient(0, 0, 0, h);
+            const altRatio = alt / 8000;
+            const topR = Math.round(56 - altRatio * 40);
+            const topG = Math.round(189 - altRatio * 130);
+            const topB = Math.round(248 - altRatio * 100);
+            const botR = Math.round(224 - altRatio * 190);
+            const botG = Math.round(242 - altRatio * 200);
+            const botB = Math.round(254 - altRatio * 200);
+            skyGradient.addColorStop(0, `rgb(${topR}, ${topG}, ${topB})`);
+            skyGradient.addColorStop(1, `rgb(${botR}, ${botG}, ${botB})`);
+            ctxAlt.fillStyle = skyGradient;
+            ctxAlt.fillRect(0, 0, w, h);
+
+            if (altRatio > 0.3) {
+                const starOpacity = (altRatio - 0.3) / 0.7;
+                for (let i = 0; i < 60; i++) {
+                    const sx = (i * 137.5) % w, sy = (i * 93.3) % (h * 0.7);
+                    const twinkle = Math.sin(state.time * 2 + i) * 0.5 + 0.5;
+                    ctxAlt.fillStyle = `rgba(255, 255, 255, ${starOpacity * twinkle * 0.9})`;
+                    ctxAlt.beginPath();
+                    ctxAlt.arc(sx, sy, 1 + (i % 3) * 0.5, 0, Math.PI * 2);
+                    ctxAlt.fill();
+                }
+            }
+
+            const sunGrad = ctxAlt.createRadialGradient(w - 100, 80, 0, w - 100, 80, 120);
+            sunGrad.addColorStop(0, 'rgba(255, 245, 200, 0.9)');
+            sunGrad.addColorStop(0.3, 'rgba(255, 220, 150, 0.4)');
+            sunGrad.addColorStop(1, 'rgba(255, 220, 150, 0)');
+            ctxAlt.fillStyle = sunGrad;
+            ctxAlt.fillRect(0, 0, w, h);
+
+            const mountainGrad1 = ctxAlt.createLinearGradient(0, h - 200, 0, h);
+            mountainGrad1.addColorStop(0, '#475569');
+            mountainGrad1.addColorStop(1, '#1e293b');
+            ctxAlt.fillStyle = mountainGrad1;
+            ctxAlt.beginPath();
+            ctxAlt.moveTo(0, h); ctxAlt.lineTo(180, 80); ctxAlt.lineTo(350, h);
+            ctxAlt.closePath(); ctxAlt.fill();
+
+            ctxAlt.fillStyle = '#f1f5f9';
+            ctxAlt.beginPath();
+            ctxAlt.moveTo(180, 80); ctxAlt.lineTo(150, 120); ctxAlt.lineTo(210, 120);
+            ctxAlt.closePath(); ctxAlt.fill();
+
+            const mountainGrad2 = ctxAlt.createLinearGradient(0, h - 200, 0, h);
+            mountainGrad2.addColorStop(0, '#334155');
+            mountainGrad2.addColorStop(1, '#0f172a');
+            ctxAlt.fillStyle = mountainGrad2;
+            ctxAlt.beginPath();
+            ctxAlt.moveTo(220, h); ctxAlt.lineTo(420, 110); ctxAlt.lineTo(600, h);
+            ctxAlt.closePath(); ctxAlt.fill();
+
+            ctxAlt.fillStyle = '#e2e8f0';
+            ctxAlt.beginPath();
+            ctxAlt.moveTo(420, 110); ctxAlt.lineTo(390, 150); ctxAlt.lineTo(450, 150);
+            ctxAlt.closePath(); ctxAlt.fill();
+
+            ctxAlt.fillStyle = 'rgba(15, 23, 42, 0.7)';
+            ctxAlt.beginPath();
+            ctxAlt.roundRect(20, 30, 10, 260, 5);
+            ctxAlt.fill();
+
+            const pointerY = 290 - (alt / 8000) * 260;
+            const markerGrad = ctxAlt.createRadialGradient(25, pointerY, 0, 25, pointerY, 20);
+            markerGrad.addColorStop(0, 'rgba(239, 68, 68, 0.8)');
+            markerGrad.addColorStop(1, 'rgba(239, 68, 68, 0)');
+            ctxAlt.fillStyle = markerGrad;
+            ctxAlt.beginPath();
+            ctxAlt.arc(25, pointerY, 20, 0, Math.PI * 2);
+            ctxAlt.fill();
+
+            ctxAlt.fillStyle = '#ef4444';
+            ctxAlt.beginPath();
+            ctxAlt.arc(25, pointerY, 7, 0, Math.PI * 2);
+            ctxAlt.fill();
+            ctxAlt.strokeStyle = '#fef2f2';
+            ctxAlt.lineWidth = 2;
+            ctxAlt.stroke();
+
+            ctxAlt.font = 'bold 12px Inter, sans-serif';
+            ctxAlt.fillStyle = '#ffffff';
+            ctxAlt.textAlign = 'left';
+            ctxAlt.shadowColor = 'rgba(0,0,0,0.8)';
+            ctxAlt.shadowBlur = 6;
+            ctxAlt.fillText(`${alt}m`, 40, pointerY + 4);
+            ctxAlt.shadowBlur = 0;
+
+            const count = Math.max(3, Math.floor((densityPct / 100) * 70));
+            state.particles.forEach((p, idx) => {
+                if (idx >= count) return;
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < 0.05 || p.x > 0.95) p.vx *= -1;
+                if (p.y < 0.05 || p.y > 0.95) p.vy *= -1;
+                if (Math.random() < 0.01) {
+                    p.vx += (Math.random() - 0.5) * 0.001;
+                    p.vy += (Math.random() - 0.5) * 0.001;
+                }
+                const mx = p.x * (w - 80) + 60;
+                const my = p.y * (h - 60) + 20;
+                const molGrad = ctxAlt.createRadialGradient(mx, my, 0, mx, my, p.size * 2);
+                molGrad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+                molGrad.addColorStop(1, 'rgba(191, 219, 254, 0.3)');
+                ctxAlt.fillStyle = molGrad;
+                ctxAlt.beginPath();
+                ctxAlt.arc(mx, my, p.size, 0, Math.PI * 2);
+                ctxAlt.fill();
+            });
+
+            // Pot with meat
+            const px = 430, py = 215, pw = 140, ph = 70;
+            const done = Math.max(0, Math.min(1, (boilTemp - 72) / 28));
+            const cookMin = Math.round(40 * Math.pow(2, (100 - boilTemp) / 10));
+            const cookStr = cookMin >= 180 ? `${(cookMin / 60).toFixed(1)} цаг` : `${cookMin} мин`;
+            const meatStatus = boilTemp >= 96 ? 'Хэвийн болно' : boilTemp >= 88 ? 'Удаан болно' : boilTemp >= 78 ? 'Маш удаан болно' : 'Болохгүй';
+            ctxAlt.fillStyle = '#f97316';
+            for (let i = 0; i < 5; i++) {
+                const fx = px - 50 + i * 25, fl = 14 + Math.sin(state.time * 9 + i) * 5;
+                ctxAlt.beginPath(); ctxAlt.moveTo(fx - 8, py + ph + 23);
+                ctxAlt.quadraticCurveTo(fx, py + ph + 23 - fl * 2, fx + 8, py + ph + 23); ctxAlt.fill();
+            }
+            ctxAlt.fillStyle = '#475569';
+            ctxAlt.beginPath(); ctxAlt.roundRect(px - pw / 2, py, pw, ph, [4, 4, 12, 12]); ctxAlt.fill();
+            ctxAlt.fillRect(px - pw / 2 - 12, py + 12, 12, 6); ctxAlt.fillRect(px + pw / 2, py + 12, 12, 6);
+            ctxAlt.fillStyle = 'rgba(56, 189, 248, 0.8)';
+            ctxAlt.beginPath(); ctxAlt.roundRect(px - pw / 2 + 6, py + 8, pw - 12, ph - 16, [2, 2, 8, 8]); ctxAlt.fill();
+            const mr = Math.round(225 - 105 * done), mg = Math.round(29 + 24 * done), mb = Math.round(72 - 57 * done);
+            ctxAlt.fillStyle = `rgb(${mr}, ${mg}, ${mb})`;
+            ctxAlt.beginPath(); ctxAlt.ellipse(px, py + ph / 2 + 2, 32, 16, 0, 0, Math.PI * 2); ctxAlt.fill();
+            ctxAlt.strokeStyle = `rgba(255,255,255,${0.5 * (1 - done)})`; ctxAlt.lineWidth = 2;
+            ctxAlt.beginPath(); ctxAlt.moveTo(px - 18, py + ph / 2); ctxAlt.lineTo(px + 14, py + ph / 2 + 6); ctxAlt.stroke();
+            for (let i = 0; i < Math.floor(done * 10); i++) {
+                const bx = px - 50 + (i * 37) % 100, by = py + ph - 12 - ((state.time * 40 + i * 17) % (ph - 22));
+                ctxAlt.fillStyle = 'rgba(255,255,255,0.7)';
+                ctxAlt.beginPath(); ctxAlt.arc(bx, by, 2 + (i % 3), 0, Math.PI * 2); ctxAlt.fill();
+            }
+            for (let i = 0; i < 8 * done; i++) {
+                const k = (state.time * 0.8 + i * 0.37) % 1;
+                ctxAlt.fillStyle = `rgba(255,255,255,${(1 - k) * 0.5})`;
+                ctxAlt.beginPath(); ctxAlt.arc(px + Math.sin(i * 2 + state.time) * 18, py - 6 - k * 50, 6 + k * 12, 0, Math.PI * 2); ctxAlt.fill();
+            }
+            ctxAlt.textAlign = 'center'; ctxAlt.font = 'bold 13px Inter, sans-serif';
+            ctxAlt.fillStyle = '#ffffff'; ctxAlt.shadowColor = 'rgba(0,0,0,0.9)'; ctxAlt.shadowBlur = 6;
+            ctxAlt.fillText(`Ус буцалж байна: ${boilTemp}°C`, px, py - 78);
+            ctxAlt.fillStyle = done > 0.85 ? '#34d399' : done > 0.4 ? '#fbbf24' : '#fb7185';
+            ctxAlt.fillText(`Мах: ${meatStatus} (${cookStr})`, px, py - 60);
+            ctxAlt.shadowBlur = 0;
+
+            document.getElementById('dispPresVal').textContent = `${currentP.toFixed(1)} кПа`;
+            document.getElementById('dispDensityVal').textContent = cookStr;
+            document.getElementById('dispBoilVal').textContent = `${boilTemp} °C`;
+            document.getElementById('dispAltBadge').textContent = `Өндөр: ${alt} м`;
+            document.getElementById('dispSliderAltText').textContent = `${alt} м`;
+
+            const slider = document.getElementById('sliderAltVal');
+            const pct = (alt / 8000) * 100;
+            slider.style.background = `linear-gradient(90deg, #3b82f6 0%, #8b5cf6 ${pct}%, rgba(148, 163, 184, 0.3) ${pct}%, rgba(148, 163, 184, 0.3) 100%)`;
+
+            requestAnimationFrame(drawAltSim);
+        }
+
+        document.getElementById('sliderAltVal').addEventListener('input', (e) => {
+            state.altMeters = parseInt(e.target.value);
+        });
+
+        function setAltPreset(val) {
+            state.altMeters = val;
+            document.getElementById('sliderAltVal').value = val;
+        }
+
+        // ========== PLASTIC BOTTLE: HOT WATER -> COLD WATER ========
+        const canvasCan = document.getElementById('canvasCan');
+        const ctxCan = canvasCan.getContext('2d');
+
+        function bottlePath(c, cx, top, t) {
+            const H = 230;
+            const hw = (f, ph) => {
+                let b = f < 0.2 ? 15 : f < 0.32 ? 15 + (f - 0.2) / 0.12 * 23 : 38;
+                if (f > 0.32 && f < 0.97) { const s = Math.sin((f - 0.32) / 0.65 * Math.PI); b -= t * s * (13 + 5 * Math.sin(f * 26 + ph)); }
+                return b;
+            };
+            c.beginPath();
+            for (let i = 0; i <= 40; i++) { const f = i / 40, x = cx - hw(f, 0); i ? c.lineTo(x, top + f * H) : c.moveTo(x, top + f * H); }
+            for (let i = 40; i >= 0; i--) { const f = i / 40; c.lineTo(cx + hw(f, 2), top + f * H); }
+            c.closePath();
+        }
+
+        function drawCan() {
+            if (state.activeTab !== 'tabCan') return;
+            const w = canvasCan.width, h = canvasCan.height, c = ctxCan, cx = w / 2;
+            state.time += 0.016;
+            state.canHeat += ((state.canState === 'heated' ? 1 : 0) - state.canHeat) * 0.05;
+            state.canTransition += ((state.canState === 'crushed' ? 1 : 0) - state.canTransition) * 0.04;
+            const t = state.canTransition, hot = state.canHeat, tt = t - 0.25 * hot * (1 - t);
+            const bg = c.createLinearGradient(0, 0, 0, h);
+            bg.addColorStop(0, '#0c1424'); bg.addColorStop(1, '#020617');
+            c.fillStyle = bg; c.fillRect(0, 0, w, h);
+
+            const top = 55 + t * 45, bowlY = h - 105, bw = 300;
+            if (state.canState !== 'normal') {
+                c.save(); bottlePath(c, cx, top, tt); c.clip();
+                c.fillStyle = `rgba(${Math.round(251 - 126 * t)}, ${Math.round(146 + 65 * t)}, ${Math.round(60 + 188 * t)}, 0.7)`;
+                c.fillRect(cx - 60, top + 230 * 0.7, 120, 100);
+                c.restore();
+            }
+            bottlePath(c, cx, top, tt);
+            c.fillStyle = 'rgba(186, 230, 253, 0.15)'; c.fill();
+            c.strokeStyle = 'rgba(186, 230, 253, 0.9)'; c.lineWidth = 2.5; c.stroke();
+            if (state.canState === 'crushed') {
+                c.fillStyle = '#3b82f6'; c.beginPath(); c.roundRect(cx - 19, top - 12, 38, 14, 3); c.fill();
+            }
+            if (state.canState === 'heated' && hot > 0.3) {
+                for (let i = 0; i < 12; i++) {
+                    const k = (state.time * 0.9 + i * 0.3) % 1;
+                    c.fillStyle = `rgba(255, 240, 220, ${(1 - k) * hot * 0.6})`;
+                    c.beginPath(); c.arc(cx + Math.sin(i * 1.7 + state.time * 2) * 14, top - 8 - k * 70, 6 + k * 16, 0, Math.PI * 2); c.fill();
+                }
+            }
+            // cold water bowl
+            c.fillStyle = 'rgba(56, 189, 248, 0.45)';
+            c.beginPath(); c.roundRect(cx - bw / 2, bowlY, bw, 85, 12); c.fill();
+            c.strokeStyle = 'rgba(186, 230, 253, 0.5)'; c.lineWidth = 2; c.stroke();
+            c.fillStyle = 'rgba(224, 242, 254, 0.8)';
+            [-135, -100, 75, 108].forEach((dx, i) => c.fillRect(cx + dx + Math.sin(state.time + i) * 3, bowlY + 6 + (i % 2) * 7, 24, 22));
+            c.font = 'bold 11px Inter, sans-serif'; c.textAlign = 'center'; c.fillStyle = '#bae6fd';
+            c.fillText('Хүйтэн ус (мөстэй)', cx, bowlY + 75);
+
+            if (t > 0.1) {
+                const pulse = Math.sin(state.time * 5) * 0.3 + 0.7;
+                c.strokeStyle = c.fillStyle = `rgba(251, 113, 133, ${pulse * t})`; c.lineWidth = 3;
+                for (const sd of [-1, 1]) for (let i = 0; i < 3; i++) {
+                    const y = top + 80 + i * 45, x1 = cx + sd * 140, x2 = cx + sd * (62 - t * 8);
+                    c.beginPath(); c.moveTo(x1, y); c.lineTo(x2, y); c.stroke();
+                    c.beginPath(); c.moveTo(x2, y); c.lineTo(x2 + sd * 10, y - 6); c.lineTo(x2 + sd * 10, y + 6); c.closePath(); c.fill();
+                }
+                c.font = 'bold 12px Inter, sans-serif'; c.fillText('Гаднах даралт 101.3 кПа > Доторх ~27 кПа', cx, 28);
+            }
+
+            const badge = document.getElementById('badgeCanState');
+            const set = (txt, cls, T, pin) => {
+                badge.textContent = txt;
+                badge.className = `bg-${cls}-500/20 text-${cls}-200 text-xs font-bold px-3.5 py-1.5 rounded-full border border-${cls}-400/30 backdrop-blur-md`;
+                document.getElementById('dispCanTemp').textContent = T;
+                document.getElementById('dispCanInPres').textContent = pin;
+                document.getElementById('dispCanOutPres').textContent = '101.3';
+            };
+            if (state.canState === 'normal') set('Хэвийн төлөв', 'blue', '20 °C', '101.3');
+            else if (state.canState === 'heated') set('🔥 Халуун ус хийсэн: сав тэлнэ', 'amber', '90 °C', '101.3');
+            else set('💥 САВ АГШЛАА!', 'rose', '20 °C', '~ 27 кПа');
+            requestAnimationFrame(drawCan);
+        }
+
+        function heatCan() { state.canState = 'heated'; }
+        function coolCan() { if (state.canState === 'heated') state.canState = 'crushed'; }
+        function resetCan() { state.canState = 'normal'; state.canTransition = 0; state.canHeat = 0; }
+
+        // ============================================================
+        // ================= GLASS — ENHANCED VERSION =================
+        // ============================================================
+        const canvasGlass = document.getElementById('canvasGlass');
+        const ctxGlass = canvasGlass.getContext('2d');
+
+        const waterDrops = [];
+        for (let i = 0; i < 30; i++) {
+            waterDrops.push({
+                x: Math.random(), y: Math.random(),
+                size: 1 + Math.random() * 2,
+                speed: 0.001 + Math.random() * 0.002,
+                phase: Math.random() * Math.PI * 2
+            });
+        }
+
+        function spawnGlassSpillParticles(cx, cy) {
+            for (let i = 0; i < 80; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 1 + Math.random() * 5;
+                state.glassSpillParticles.push({
+                    x: cx + (Math.random() - 0.5) * 90,
+                    y: cy,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.random() * 2 + 1,
+                    life: 1,
+                    size: 2 + Math.random() * 4
+                });
+            }
+        }
+
+        function drawGlass() {
+            if (state.activeTab !== 'tabGlass') return;
+
+            const w = canvasGlass.width;
+            const h = canvasGlass.height;
+            state.time += 0.016;
+
+            if (state.glassPaperRemoved && state.glassPaperFly < 1) {
+                state.glassPaperFly += 0.035;
+            }
+
+            if (state.glassPaperRemoved && state.glassSpillProgress < 1) {
+                state.glassSpillProgress += 0.025;
+            }
+
+            ctxGlass.clearRect(0, 0, w, h);
+
+            const bgGrad = ctxGlass.createLinearGradient(0, 0, 0, h);
+            bgGrad.addColorStop(0, '#0a1e33');
+            bgGrad.addColorStop(0.5, '#082f49');
+            bgGrad.addColorStop(1, '#031a2b');
+            ctxGlass.fillStyle = bgGrad;
+            ctxGlass.fillRect(0, 0, w, h);
+
+            for (let i = 0; i < 50; i++) {
+                const sx = (i * 137.5) % w;
+                const sy = (i * 93.3) % h;
+                const twinkle = Math.sin(state.time * 1.5 + i) * 0.5 + 0.5;
+                ctxGlass.fillStyle = `rgba(186, 230, 253, ${twinkle * 0.15})`;
+                ctxGlass.beginPath();
+                ctxGlass.arc(sx, sy, 1, 0, Math.PI * 2);
+                ctxGlass.fill();
+            }
+
+            const ambGlow = ctxGlass.createRadialGradient(w / 2, h / 2, 30, w / 2, h / 2, 300);
+            ambGlow.addColorStop(0, 'rgba(6, 182, 212, 0.15)');
+            ambGlow.addColorStop(1, 'rgba(0,0,0,0)');
+            ctxGlass.fillStyle = ambGlow;
+            ctxGlass.fillRect(0, 0, w, h);
+
+            const cx = w / 2;
+            const cy = h / 2;
+            const angle = (state.glassAngle * Math.PI) / 180;
+
+            ctxGlass.save();
+            ctxGlass.translate(cx, cy);
+            ctxGlass.rotate(angle);
+
+            const gW = 130;
+            const gH = 170;
+            const glassX = -gW / 2;
+            const glassY = -gH / 2;
+
+            const shadowGrad = ctxGlass.createRadialGradient(0, gH / 2 + 30, 10, 0, gH / 2 + 30, gW);
+            shadowGrad.addColorStop(0, 'rgba(0,0,0,0.4)');
+            shadowGrad.addColorStop(1, 'rgba(0,0,0,0)');
+            ctxGlass.fillStyle = shadowGrad;
+            ctxGlass.beginPath();
+            ctxGlass.ellipse(0, gH / 2 + 30, gW, 15, 0, 0, Math.PI * 2);
+            ctxGlass.fill();
+
+            const waterFillLevel = 1 - state.glassSpillProgress * 0.95;
+
+            if (waterFillLevel > 0.02) {
+                const waterGrad = ctxGlass.createLinearGradient(0, glassY, 0, glassY + gH);
+                waterGrad.addColorStop(0, 'rgba(56, 189, 248, 0.7)');
+                waterGrad.addColorStop(0.5, 'rgba(14, 165, 233, 0.85)');
+                waterGrad.addColorStop(1, 'rgba(2, 132, 199, 0.95)');
+                ctxGlass.fillStyle = waterGrad;
+
+                ctxGlass.save();
+                ctxGlass.beginPath();
+                ctxGlass.roundRect(glassX + 5, glassY + 5, gW - 10, gH - 10, [0, 0, 12, 12]);
+                ctxGlass.clip();
+
+                const fillHeight = (gH - 10) * waterFillLevel;
+                const fillTopY = glassY + 5 + (gH - 10) - fillHeight;
+                ctxGlass.fillRect(glassX + 5, fillTopY, gW - 10, fillHeight);
+
+                ctxGlass.beginPath();
+                ctxGlass.moveTo(glassX + 5, fillTopY);
+                for (let x = glassX + 5; x <= glassX + gW - 5; x += 3) {
+                    const wave = Math.sin(x * 0.15 + state.time * 3) * 2 + Math.cos(x * 0.08 - state.time * 2) * 1.5;
+                    ctxGlass.lineTo(x, fillTopY + wave);
+                }
+                ctxGlass.lineTo(glassX + gW - 5, fillTopY + 12);
+                ctxGlass.lineTo(glassX + 5, fillTopY + 12);
+                ctxGlass.closePath();
+                ctxGlass.fillStyle = 'rgba(186, 230, 253, 0.6)';
+                ctxGlass.fill();
+
+                waterDrops.forEach(drop => {
+                    if (drop.y > waterFillLevel) return;
+                    const bx = glassX + 5 + drop.x * (gW - 10);
+                    const by = fillTopY + drop.y * fillHeight;
+                    const bxOffset = Math.sin(state.time * 2 + drop.phase) * 3;
+                    ctxGlass.fillStyle = `rgba(255, 255, 255, 0.35)`;
+                    ctxGlass.beginPath();
+                    ctxGlass.arc(bx + bxOffset, by, drop.size, 0, Math.PI * 2);
+                    ctxGlass.fill();
+                });
+
+                ctxGlass.restore();
+            }
+
+            ctxGlass.save();
+            ctxGlass.beginPath();
+            ctxGlass.roundRect(glassX, glassY, gW, gH, [0, 0, 14, 14]);
+            ctxGlass.clip();
+
+            const glassHighlight = ctxGlass.createLinearGradient(glassX, 0, glassX + gW, 0);
+            glassHighlight.addColorStop(0, 'rgba(186, 230, 253, 0.5)');
+            glassHighlight.addColorStop(0.1, 'rgba(255, 255, 255, 0.15)');
+            glassHighlight.addColorStop(0.5, 'rgba(255, 255, 255, 0.05)');
+            glassHighlight.addColorStop(0.9, 'rgba(186, 230, 253, 0.15)');
+            glassHighlight.addColorStop(1, 'rgba(186, 230, 253, 0.5)');
+            ctxGlass.fillStyle = glassHighlight;
+            ctxGlass.fillRect(glassX, glassY, gW, gH);
+            ctxGlass.restore();
+
+            ctxGlass.strokeStyle = 'rgba(125, 211, 252, 0.9)';
+            ctxGlass.lineWidth = 3;
+            ctxGlass.beginPath();
+            ctxGlass.roundRect(glassX, glassY, gW, gH, [0, 0, 14, 14]);
+            ctxGlass.stroke();
+
+            ctxGlass.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+            ctxGlass.lineWidth = 1.5;
+            ctxGlass.beginPath();
+            ctxGlass.roundRect(glassX + 3, glassY + 3, gW - 6, gH - 6, [0, 0, 12, 12]);
+            ctxGlass.stroke();
+
+            const paperY = glassY - 4;
+            const paperW = gW + 30;
+            const paperH = 18;
+
+            const paperFlyX = state.glassPaperRemoved ? state.glassPaperFly * 200 : 0;
+            const paperFlyY = state.glassPaperRemoved ? -state.glassPaperFly * 80 : 0;
+            const paperRot = state.glassPaperRemoved ? state.glassPaperFly * 1.8 : 0;
+
+            if (!state.glassPaperRemoved || state.glassPaperFly < 1) {
+                ctxGlass.save();
+                ctxGlass.translate(paperFlyX, paperFlyY);
+                ctxGlass.rotate(paperRot);
+                ctxGlass.globalAlpha = state.glassPaperRemoved ? (1 - state.glassPaperFly) : 1;
+
+                ctxGlass.fillStyle = 'rgba(0,0,0,0.3)';
+                ctxGlass.beginPath();
+                ctxGlass.roundRect(-paperW / 2 + 2, paperY + 2, paperW, paperH, 4);
+                ctxGlass.fill();
+
+                const paperGrad = ctxGlass.createLinearGradient(0, paperY, 0, paperY + paperH);
+                paperGrad.addColorStop(0, '#fef3c7');
+                paperGrad.addColorStop(0.5, '#fbbf24');
+                paperGrad.addColorStop(1, '#d97706');
+                ctxGlass.fillStyle = paperGrad;
+                ctxGlass.beginPath();
+                ctxGlass.roundRect(-paperW / 2, paperY, paperW, paperH, 4);
+                ctxGlass.fill();
+
+                ctxGlass.strokeStyle = 'rgba(146, 64, 14, 0.2)';
+                ctxGlass.lineWidth = 0.5;
+                for (let py = paperY + 3; py < paperY + paperH - 2; py += 3) {
+                    ctxGlass.beginPath();
+                    ctxGlass.moveTo(-paperW / 2 + 4, py);
+                    ctxGlass.lineTo(paperW / 2 - 4, py);
+                    ctxGlass.stroke();
+                }
+
+                ctxGlass.strokeStyle = '#92400e';
+                ctxGlass.lineWidth = 1.5;
+                ctxGlass.beginPath();
+                ctxGlass.roundRect(-paperW / 2, paperY, paperW, paperH, 4);
+                ctxGlass.stroke();
+
+                ctxGlass.restore();
+            }
+
+            if (state.glassAngle > 90 && !state.glassPaperRemoved) {
+                const dropletPulse = Math.sin(state.time * 4) * 0.5 + 0.5;
+                for (let i = 0; i < 3; i++) {
+                    const dx = -paperW / 2 + 20 + i * (paperW - 40) / 2;
+                    const dy = paperY + paperH + 4 + dropletPulse * 6;
+                    const dr = 3 + dropletPulse * 2;
+                    const dropletGrad = ctxGlass.createRadialGradient(dx, dy, 0, dx, dy, dr);
+                    dropletGrad.addColorStop(0, `rgba(125, 211, 252, ${dropletPulse * 0.7})`);
+                    dropletGrad.addColorStop(1, 'rgba(14, 165, 233, 0)');
+                    ctxGlass.fillStyle = dropletGrad;
+                    ctxGlass.beginPath();
+                    ctxGlass.arc(dx, dy, dr, 0, Math.PI * 2);
+                    ctxGlass.fill();
+                }
+            }
+
+            ctxGlass.restore();
+
+            if (state.glassAngle >= 135 && !state.glassPaperRemoved) {
+                const alpha = Math.min(1, (state.glassAngle - 135) / 45);
+                const pressurePulse = Math.sin(state.time * 3) * 0.3 + 0.7;
+                const finalAlpha = alpha * pressurePulse;
+
+                const arrowBottomY = cy + 155;
+                const arrowTopY = cy + 95;
+
+                for (let i = 0; i < 5; i++) {
+                    const ax = cx - 80 + i * 40;
+
+                    const arrowGrad = ctxGlass.createLinearGradient(ax, arrowBottomY, ax, arrowTopY);
+                    arrowGrad.addColorStop(0, `rgba(16, 185, 129, 0)`);
+                    arrowGrad.addColorStop(0.3, `rgba(16, 185, 129, ${finalAlpha * 0.5})`);
+                    arrowGrad.addColorStop(1, `rgba(52, 211, 153, ${finalAlpha})`);
+
+                    ctxGlass.strokeStyle = arrowGrad;
+                    ctxGlass.lineWidth = 4;
+                    ctxGlass.lineCap = 'round';
+                    ctxGlass.beginPath();
+                    ctxGlass.moveTo(ax, arrowBottomY);
+                    ctxGlass.lineTo(ax, arrowTopY);
+                    ctxGlass.stroke();
+
+                    ctxGlass.fillStyle = `rgba(52, 211, 153, ${finalAlpha})`;
+                    ctxGlass.beginPath();
+                    ctxGlass.moveTo(ax, arrowTopY - 10);
+                    ctxGlass.lineTo(ax - 9, arrowTopY + 6);
+                    ctxGlass.lineTo(ax + 9, arrowTopY + 6);
+                    ctxGlass.closePath();
+                    ctxGlass.fill();
+                }
+
+                ctxGlass.font = 'bold 13px Inter, sans-serif';
+                ctxGlass.fillStyle = `rgba(167, 243, 208, ${finalAlpha})`;
+                ctxGlass.textAlign = 'center';
+                ctxGlass.shadowColor = 'rgba(16, 185, 129, 0.6)';
+                ctxGlass.shadowBlur = 14;
+                ctxGlass.fillText('⬆ АГААРЫН ДАРАЛТ = 300 Н', cx, cy + 195);
+                ctxGlass.shadowBlur = 0;
+
+                for (let i = 0; i < 3; i++) {
+                    const ax = cx - 30 + i * 30;
+                    const fromY = cy - 30;
+                    const toY = cy + 20;
+
+                    const weightGrad = ctxGlass.createLinearGradient(ax, fromY, ax, toY);
+                    weightGrad.addColorStop(0, `rgba(244, 63, 94, ${finalAlpha * 0.5})`);
+                    weightGrad.addColorStop(1, `rgba(244, 63, 94, 0)`);
+
+                    ctxGlass.strokeStyle = weightGrad;
+                    ctxGlass.lineWidth = 3;
+                    ctxGlass.beginPath();
+                    ctxGlass.moveTo(ax, fromY);
+                    ctxGlass.lineTo(ax, toY);
+                    ctxGlass.stroke();
+
+                    ctxGlass.fillStyle = `rgba(244, 63, 94, ${finalAlpha * 0.8})`;
+                    ctxGlass.beginPath();
+                    ctxGlass.moveTo(ax, toY + 6);
+                    ctxGlass.lineTo(ax - 6, toY - 4);
+                    ctxGlass.lineTo(ax + 6, toY - 4);
+                    ctxGlass.closePath();
+                    ctxGlass.fill();
+                }
+
+                ctxGlass.font = 'bold 11px Inter, sans-serif';
+                ctxGlass.fillStyle = `rgba(251, 113, 133, ${finalAlpha})`;
+                ctxGlass.textAlign = 'center';
+                ctxGlass.fillText('⬇ Усны хүнд = 2.5 Н', cx, cy - 50);
+            }
+
+            if (state.glassPaperRemoved && state.glassSpillProgress > 0 && state.glassSpillProgress < 1) {
+                if (state.glassSpillParticles.length === 0 && state.glassSpillProgress > 0.1) {
+                    spawnGlassSpillParticles(cx, cy + 40);
+                }
+            }
+
+            state.glassSpillParticles = state.glassSpillParticles.filter(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.45;
+                p.vx *= 0.99;
+                p.life -= 0.012;
+
+                if (p.life > 0 && p.y < h + 20) {
+                    ctxGlass.fillStyle = `rgba(125, 211, 252, ${p.life * 0.9})`;
+                    ctxGlass.beginPath();
+                    ctxGlass.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+                    ctxGlass.fill();
+                    return true;
+                }
+                return false;
+            });
+
+            if (state.glassPaperRemoved && state.glassSpillProgress > 0.3) {
+                ctxGlass.font = 'bold 15px Inter, sans-serif';
+                ctxGlass.fillStyle = 'rgba(251, 113, 133, 0.95)';
+                ctxGlass.textAlign = 'center';
+                ctxGlass.shadowColor = 'rgba(0,0,0,0.9)';
+                ctxGlass.shadowBlur = 8;
+                ctxGlass.fillText('💧 УС АСГАРЛАА!', cx, cy - 130);
+                ctxGlass.font = 'normal 11px Inter, sans-serif';
+                ctxGlass.fillStyle = 'rgba(148, 163, 184, 0.9)';
+                ctxGlass.fillText('Агаарын даралтыг тогтоох цаас авагдсан тул', cx, cy - 110);
+                ctxGlass.fillText('ус хүндийн хүчээр доош уналаа', cx, cy - 95);
+                ctxGlass.shadowBlur = 0;
+            }
+
+            if (state.glassAngle === 180 && !state.glassPaperRemoved) {
+                ctxGlass.font = 'bold 12px Inter, sans-serif';
+                ctxGlass.fillStyle = 'rgba(52, 211, 153, 0.9)';
+                ctxGlass.textAlign = 'center';
+                ctxGlass.shadowColor = 'rgba(0,0,0,0.8)';
+                ctxGlass.shadowBlur = 6;
+                ctxGlass.fillText('💧 Ус асгарахгүй байна!', cx, cy - 130);
+                ctxGlass.shadowBlur = 0;
+            }
+
+            document.getElementById('badgeGlassAngle').textContent = state.glassPaperRemoved ? 'Цаас авагдсан!' : `Налуу: ${state.glassAngle}°`;
+            document.getElementById('dispAngleVal').textContent = `${state.glassAngle}°`;
+
+            const slider = document.getElementById('sliderGlassAngle');
+            const pct = (state.glassAngle / 180) * 100;
+            slider.style.background = `linear-gradient(90deg, #06b6d4 0%, #3b82f6 ${pct}%, rgba(148, 163, 184, 0.3) ${pct}%, rgba(148, 163, 184, 0.3) 100%)`;
+
+            requestAnimationFrame(drawGlass);
+        }
+
+        document.getElementById('sliderGlassAngle').addEventListener('input', (e) => {
+            state.glassAngle = parseInt(e.target.value);
+        });
+
+        function flipGlassQuick() {
+            state.glassAngle = state.glassAngle >= 90 ? 0 : 180;
+            document.getElementById('sliderGlassAngle').value = state.glassAngle;
+        }
+
+        function removePaper() {
+            if (state.glassAngle < 90) return;
+            state.glassPaperRemoved = true;
+            state.glassPaperFly = 0;
+            state.glassSpillProgress = 0;
+            state.glassSpillParticles = [];
+        }
+
+        function resetGlass() {
+            state.glassAngle = 0;
+            state.glassPaperRemoved = false;
+            state.glassPaperFly = 0;
+            state.glassSpillProgress = 0;
+            state.glassSpillParticles = [];
+            document.getElementById('sliderGlassAngle').value = 0;
+        }
+
+        // ============================================================
+        // ========== BOOK EXPERIMENT — WITH PULLING FIGURES ==========
+        // ============================================================
+        const canvasBook = document.getElementById('canvasBook');
+        const ctxBook = canvasBook.getContext('2d');
+
+        function drawBook() {
+            if (state.activeTab !== 'tabBook') return;
+            ctxBook.clearRect(0, 0, canvasBook.width, canvasBook.height);
+            const w = canvasBook.width, h = canvasBook.height;
+            const cx = w / 2, cy = h / 2;
+            const pages = state.bookPages;
+            state.time += 0.016;
+
+            const bgGrad = ctxBook.createLinearGradient(0, 0, 0, h);
+            bgGrad.addColorStop(0, '#1e1b4b');
+            bgGrad.addColorStop(1, '#0f172a');
+            ctxBook.fillStyle = bgGrad;
+            ctxBook.fillRect(0, 0, w, h);
+
+            const ambGrad = ctxBook.createRadialGradient(cx, cy, 30, cx, cy, 300);
+            ambGrad.addColorStop(0, 'rgba(99, 102, 241, 0.2)');
+            ambGrad.addColorStop(1, 'rgba(99, 102, 241, 0)');
+            ctxBook.fillStyle = ambGrad;
+            ctxBook.fillRect(0, 0, w, h);
+
+            const req = state.bookPages * 25;
+            const isSeparated = state.bookPull >= req;
+            const sepAmount = isSeparated ? Math.min(80, (state.bookPull - req) * 0.4) : 0;
+            const pullIntensity = Math.min(1, state.bookPull / req);
+
+            ctxBook.save();
+            ctxBook.translate(cx - 130 - sepAmount, cy);
+            const book1Grad = ctxBook.createLinearGradient(-50, -40, -50, 40);
+            book1Grad.addColorStop(0, '#3b82f6');
+            book1Grad.addColorStop(1, '#1e40af');
+            ctxBook.fillStyle = book1Grad;
+            ctxBook.beginPath();
+            ctxBook.roundRect(-50, -45, 100, 90, 6);
+            ctxBook.fill();
+            ctxBook.fillStyle = '#1e3a8a';
+            ctxBook.beginPath();
+            ctxBook.roundRect(-55, -45, 12, 90, 4);
+            ctxBook.fill();
+            ctxBook.fillStyle = '#f1f5f9';
+            ctxBook.fillRect(45, -42, 6, 84);
+            ctxBook.restore();
+
+            ctxBook.save();
+            ctxBook.translate(cx + 130 + sepAmount, cy);
+            const book2Grad = ctxBook.createLinearGradient(50, -40, 50, 40);
+            book2Grad.addColorStop(0, '#ef4444');
+            book2Grad.addColorStop(1, '#991b1b');
+            ctxBook.fillStyle = book2Grad;
+            ctxBook.beginPath();
+            ctxBook.roundRect(-50, -45, 100, 90, 6);
+            ctxBook.fill();
+            ctxBook.fillStyle = '#7f1d1d';
+            ctxBook.beginPath();
+            ctxBook.roundRect(43, -45, 12, 90, 4);
+            ctxBook.fill();
+            ctxBook.fillStyle = '#f1f5f9';
+            ctxBook.fillRect(-51, -42, 6, 84);
+            ctxBook.restore();
+
+            const gap = 70 / (pages + 1);
+            for(let i = 1; i <= pages; i++) {
+                const py = cy - 35 + i * gap;
+                ctxBook.strokeStyle = isSeparated ? `rgba(241, 245, 249, 0.6)` : `rgba(226, 232, 240, 0.9)`;
+                ctxBook.lineWidth = 2;
+                ctxBook.beginPath();
+                ctxBook.moveTo(cx - 80 - sepAmount, py);
+                ctxBook.lineTo(cx + 30 + sepAmount, py);
+                ctxBook.stroke();
+                ctxBook.beginPath();
+                ctxBook.moveTo(cx + 80 + sepAmount, py - 3);
+                ctxBook.lineTo(cx - 30 - sepAmount, py - 3);
+                ctxBook.stroke();
+            }
+
+            if (!isSeparated) {
+                const pulse = Math.sin(state.time * 2) * 0.3 + 0.7;
+                ctxBook.strokeStyle = `rgba(56, 189, 248, ${pulse})`;
+                ctxBook.fillStyle = `rgba(56, 189, 248, ${pulse})`;
+                ctxBook.lineWidth = 3;
+                ctxBook.beginPath();
+                ctxBook.moveTo(cx, cy - 80); ctxBook.lineTo(cx, cy - 48);
+                ctxBook.stroke();
+                ctxBook.beginPath();
+                ctxBook.moveTo(cx, cy - 42); ctxBook.lineTo(cx - 6, cy - 50); ctxBook.lineTo(cx + 6, cy - 50);
+                ctxBook.closePath(); ctxBook.fill();
+                ctxBook.beginPath();
+                ctxBook.moveTo(cx, cy + 80); ctxBook.lineTo(cx, cy + 48);
+                ctxBook.stroke();
+                ctxBook.beginPath();
+                ctxBook.moveTo(cx, cy + 42); ctxBook.lineTo(cx - 6, cy + 50); ctxBook.lineTo(cx + 6, cy + 50);
+                ctxBook.closePath(); ctxBook.fill();
+                ctxBook.font = 'bold 11px Inter, sans-serif';
+                ctxBook.fillStyle = `rgba(186, 230, 253, ${pulse})`;
+                ctxBook.textAlign = 'center';
+                ctxBook.fillText('Агаарын даралт шахаж байна ⬇️⬆️', cx, cy - 95);
+            } else {
+                ctxBook.font = 'bold 14px Inter, sans-serif';
+                ctxBook.fillStyle = '#34d399';
+                ctxBook.textAlign = 'center';
+                ctxBook.fillText('✓ Дэвтэр салсан!', cx, cy - 100);
+            }
+
+            if (state.bookPull > 0) {
+                const pullPulse = Math.sin(state.time * 6) * 0.5 + 0.5;
+                const bobAmount = pullIntensity * 3 * Math.sin(state.time * 8);
+
+                ctxBook.save();
+                const leftFigX = cx - 230 - sepAmount + bobAmount;
+                const leftFigY = cy;
+                ctxBook.fillStyle = '#6366f1';
+                ctxBook.beginPath();
+                ctxBook.roundRect(leftFigX - 15, leftFigY - 25, 30, 50, 5);
+                ctxBook.fill();
+                ctxBook.fillStyle = '#fbbf24';
+                ctxBook.beginPath();
+                ctxBook.arc(leftFigX, leftFigY - 40, 14, 0, Math.PI * 2);
+                ctxBook.fill();
+                ctxBook.strokeStyle = '#d97706';
+                ctxBook.lineWidth = 2;
+                ctxBook.stroke();
+                ctxBook.fillStyle = '#1e293b';
+                ctxBook.beginPath();
+                ctxBook.arc(leftFigX - 5, leftFigY - 42, 2, 0, Math.PI * 2);
+                ctxBook.arc(leftFigX + 5, leftFigY - 42, 2, 0, Math.PI * 2);
+                ctxBook.fill();
+                ctxBook.strokeStyle = '#1e293b';
+                ctxBook.lineWidth = 1.5;
+                ctxBook.beginPath();
+                ctxBook.moveTo(leftFigX - 4, leftFigY - 35);
+                ctxBook.lineTo(leftFigX + 4, leftFigY - 35);
+                ctxBook.stroke();
+                ctxBook.strokeStyle = '#fbbf24';
+                ctxBook.lineWidth = 6;
+                ctxBook.lineCap = 'round';
+                ctxBook.beginPath();
+                ctxBook.moveTo(leftFigX + 12, leftFigY - 15);
+                ctxBook.lineTo(leftFigX + 40, leftFigY - 8);
+                ctxBook.lineTo(leftFigX + 60, leftFigY - 5);
+                ctxBook.stroke();
+                ctxBook.strokeStyle = '#4338ca';
+                ctxBook.lineWidth = 7;
+                ctxBook.beginPath();
+                ctxBook.moveTo(leftFigX - 8, leftFigY + 25);
+                ctxBook.lineTo(leftFigX - 12, leftFigY + 55);
+                ctxBook.moveTo(leftFigX + 8, leftFigY + 25);
+                ctxBook.lineTo(leftFigX + 12, leftFigY + 55);
+                ctxBook.stroke();
+                if (pullIntensity > 0.3) {
+                    ctxBook.strokeStyle = `rgba(251, 191, 36, ${pullIntensity * 0.7})`;
+                    ctxBook.lineWidth = 2;
+                    for (let i = 0; i < 3; i++) {
+                        const angle = -Math.PI / 3 + i * Math.PI / 3;
+                        const r1 = 55;
+                        const r2 = 65 + pullPulse * 5;
+                        ctxBook.beginPath();
+                        ctxBook.moveTo(leftFigX + Math.cos(angle) * r1, leftFigY + Math.sin(angle) * r1);
+                        ctxBook.lineTo(leftFigX + Math.cos(angle) * r2, leftFigY + Math.sin(angle) * r2);
+                        ctxBook.stroke();
+                    }
+                }
+                ctxBook.restore();
+
+                ctxBook.save();
+                const rightFigX = cx + 230 + sepAmount - bobAmount;
+                const rightFigY = cy;
+                ctxBook.fillStyle = '#ec4899';
+                ctxBook.beginPath();
+                ctxBook.roundRect(rightFigX - 15, rightFigY - 25, 30, 50, 5);
+                ctxBook.fill();
+                ctxBook.fillStyle = '#fbbf24';
+                ctxBook.beginPath();
+                ctxBook.arc(rightFigX, rightFigY - 40, 14, 0, Math.PI * 2);
+                ctxBook.fill();
+                ctxBook.strokeStyle = '#d97706';
+                ctxBook.lineWidth = 2;
+                ctxBook.stroke();
+                ctxBook.fillStyle = '#1e293b';
+                ctxBook.beginPath();
+                ctxBook.arc(rightFigX - 5, rightFigY - 42, 2, 0, Math.PI * 2);
+                ctxBook.arc(rightFigX + 5, rightFigY - 42, 2, 0, Math.PI * 2);
+                ctxBook.fill();
+                ctxBook.strokeStyle = '#1e293b';
+                ctxBook.lineWidth = 1.5;
+                ctxBook.beginPath();
+                ctxBook.moveTo(rightFigX - 4, rightFigY - 35);
+                ctxBook.lineTo(rightFigX + 4, rightFigY - 35);
+                ctxBook.stroke();
+                ctxBook.strokeStyle = '#fbbf24';
+                ctxBook.lineWidth = 6;
+                ctxBook.lineCap = 'round';
+                ctxBook.beginPath();
+                ctxBook.moveTo(rightFigX - 12, rightFigY - 15);
+                ctxBook.lineTo(rightFigX - 40, rightFigY - 8);
+                ctxBook.lineTo(rightFigX - 60, rightFigY - 5);
+                ctxBook.stroke();
+                ctxBook.strokeStyle = '#be185d';
+                ctxBook.lineWidth = 7;
+                ctxBook.beginPath();
+                ctxBook.moveTo(rightFigX - 8, rightFigY + 25);
+                ctxBook.lineTo(rightFigX - 12, rightFigY + 55);
+                ctxBook.moveTo(rightFigX + 8, rightFigY + 25);
+                ctxBook.lineTo(rightFigX + 12, rightFigY + 55);
+                ctxBook.stroke();
+                if (pullIntensity > 0.3) {
+                    ctxBook.strokeStyle = `rgba(251, 191, 36, ${pullIntensity * 0.7})`;
+                    ctxBook.lineWidth = 2;
+                    for (let i = 0; i < 3; i++) {
+                        const angle = -Math.PI / 3 + i * Math.PI / 3;
+                        const r1 = 55;
+                        const r2 = 65 + pullPulse * 5;
+                        ctxBook.beginPath();
+                        ctxBook.moveTo(rightFigX + Math.cos(angle) * r1, rightFigY + Math.sin(angle) * r1);
+                        ctxBook.lineTo(rightFigX + Math.cos(angle) * r2, rightFigY + Math.sin(angle) * r2);
+                        ctxBook.stroke();
+                    }
+                }
+                ctxBook.restore();
+
+                const arrowPulse = Math.sin(state.time * 8) * 0.3 + 0.7;
+                const arrowColor = isSeparated ? 'rgba(52, 211, 153, ' : 'rgba(251, 191, 36, ';
+
+                ctxBook.strokeStyle = arrowColor + (arrowPulse * pullIntensity) + ')';
+                ctxBook.fillStyle = arrowColor + (arrowPulse * pullIntensity) + ')';
+                ctxBook.lineWidth = 4;
+                ctxBook.beginPath();
+                ctxBook.moveTo(cx - 200 - sepAmount + bobAmount, cy);
+                ctxBook.lineTo(cx - 160 - sepAmount, cy);
+                ctxBook.stroke();
+                ctxBook.beginPath();
+                ctxBook.moveTo(cx - 160 - sepAmount, cy);
+                ctxBook.lineTo(cx - 172 - sepAmount, cy - 8);
+                ctxBook.lineTo(cx - 172 - sepAmount, cy + 8);
+                ctxBook.closePath();
+                ctxBook.fill();
+
+                ctxBook.beginPath();
+                ctxBook.moveTo(cx + 200 + sepAmount - bobAmount, cy);
+                ctxBook.lineTo(cx + 160 + sepAmount, cy);
+                ctxBook.stroke();
+                ctxBook.beginPath();
+                ctxBook.moveTo(cx + 160 + sepAmount, cy);
+                ctxBook.lineTo(cx + 172 + sepAmount, cy - 8);
+                ctxBook.lineTo(cx + 172 + sepAmount, cy + 8);
+                ctxBook.closePath();
+                ctxBook.fill();
+
+                const forceLabel = `${state.bookPull} Н`;
+                ctxBook.font = 'bold 14px Inter, sans-serif';
+                ctxBook.textAlign = 'center';
+
+                ctxBook.fillStyle = 'rgba(15, 23, 42, 0.9)';
+                ctxBook.strokeStyle = isSeparated ? 'rgba(52, 211, 153, 0.7)' : 'rgba(251, 191, 36, 0.7)';
+                ctxBook.lineWidth = 2;
+                ctxBook.beginPath();
+                ctxBook.roundRect(cx - 215, cy + 75, 70, 26, 6);
+                ctxBook.fill();
+                ctxBook.stroke();
+                ctxBook.fillStyle = isSeparated ? '#34d399' : '#fbbf24';
+                ctxBook.fillText('← ' + forceLabel, cx - 180, cy + 93);
+
+                ctxBook.fillStyle = 'rgba(15, 23, 42, 0.9)';
+                ctxBook.strokeStyle = isSeparated ? 'rgba(52, 211, 153, 0.7)' : 'rgba(251, 191, 36, 0.7)';
+                ctxBook.lineWidth = 2;
+                ctxBook.beginPath();
+                ctxBook.roundRect(cx + 145, cy + 75, 70, 26, 6);
+                ctxBook.fill();
+                ctxBook.stroke();
+                ctxBook.fillStyle = isSeparated ? '#34d399' : '#fbbf24';
+                ctxBook.fillText(forceLabel + ' →', cx + 180, cy + 93);
+
+                ctxBook.strokeStyle = `rgba(148, 163, 184, ${0.6 * pullIntensity + 0.2})`;
+                ctxBook.lineWidth = 3;
+                ctxBook.setLineDash([6, 4]);
+                ctxBook.beginPath();
+                ctxBook.moveTo(cx - 60 - sepAmount, cy);
+                ctxBook.lineTo(cx - 170 - sepAmount + bobAmount, cy);
+                ctxBook.stroke();
+                ctxBook.setLineDash([]);
+
+                ctxBook.setLineDash([6, 4]);
+                ctxBook.beginPath();
+                ctxBook.moveTo(cx + 60 + sepAmount, cy);
+                ctxBook.lineTo(cx + 170 + sepAmount - bobAmount, cy);
+                ctxBook.stroke();
+                ctxBook.setLineDash([]);
+
+                const meterW = 240;
+                const meterH = 20;
+                const meterX = cx - meterW / 2;
+                const meterY = 25;
+
+                ctxBook.fillStyle = 'rgba(15, 23, 42, 0.85)';
+                ctxBook.beginPath();
+                ctxBook.roundRect(meterX, meterY, meterW, meterH, 10);
+                ctxBook.fill();
+                ctxBook.strokeStyle = 'rgba(148, 163, 184, 0.3)';
+                ctxBook.lineWidth = 1.5;
+                ctxBook.stroke();
+
+                const fillPct = Math.min(1, state.bookPull / req);
+                const fillW = (meterW - 6) * fillPct;
+                const fillGrad = ctxBook.createLinearGradient(meterX, 0, meterX + meterW, 0);
+                if (isSeparated) {
+                    fillGrad.addColorStop(0, '#34d399');
+                    fillGrad.addColorStop(1, '#10b981');
+                } else {
+                    fillGrad.addColorStop(0, '#fbbf24');
+                    fillGrad.addColorStop(1, '#f59e0b');
+                }
+                ctxBook.fillStyle = fillGrad;
+                ctxBook.beginPath();
+                ctxBook.roundRect(meterX + 3, meterY + 3, fillW, meterH - 6, 8);
+                ctxBook.fill();
+
+                const reqMarkerX = meterX + 3 + (meterW - 6);
+                ctxBook.strokeStyle = 'rgba(239, 68, 68, 0.9)';
+                ctxBook.lineWidth = 2;
+                ctxBook.beginPath();
+                ctxBook.moveTo(reqMarkerX, meterY - 3);
+                ctxBook.lineTo(reqMarkerX, meterY + meterH + 3);
+                ctxBook.stroke();
+
+                ctxBook.font = 'bold 11px Inter, sans-serif';
+                ctxBook.textAlign = 'center';
+                ctxBook.fillStyle = isSeparated ? '#34d399' : '#fbbf24';
+                ctxBook.fillText(`${state.bookPull} Н / ${req} Н`, cx, meterY + 14);
+            }
+
+            requestAnimationFrame(drawBook);
+        }
+
+        document.getElementById('sliderPages').addEventListener('input', (e) => {
+            state.bookPages = parseInt(e.target.value);
+            updateBookMetrics(); updateBookSliderGradients();
+        });
+        document.getElementById('sliderPull').addEventListener('input', (e) => {
+            state.bookPull = parseInt(e.target.value);
+            updateBookMetrics(); updateBookSliderGradients();
+        });
+
+        function updateBookSliderGradients() {
+            const sliderPages = document.getElementById('sliderPages');
+            const pctP = ((state.bookPages - 1) / 24) * 100;
+            sliderPages.style.background = `linear-gradient(90deg, #6366f1 0%, #8b5cf6 ${pctP}%, rgba(148, 163, 184, 0.3) ${pctP}%, rgba(148, 163, 184, 0.3) 100%)`;
+            const sliderPull = document.getElementById('sliderPull');
+            const pctL = (state.bookPull / 2000) * 100;
+            sliderPull.style.background = `linear-gradient(90deg, #6366f1 0%, #8b5cf6 ${pctL}%, rgba(148, 163, 184, 0.3) ${pctL}%, rgba(148, 163, 184, 0.3) 100%)`;
+        }
+
+        function updateBookMetrics() {
+            const req = state.bookPages * 25;
+            document.getElementById('dispSliderPagesVal').textContent = state.bookPages;
+            document.getElementById('dispPageCount').textContent = state.bookPages;
+            document.getElementById('dispSliderPullVal').textContent = `${state.bookPull} Н`;
+            document.getElementById('dispPullForce').textContent = `${state.bookPull} Н`;
+            document.getElementById('dispReqForce').textContent = `${req} Н`;
+            const badge = document.getElementById('badgeBookState');
+            if (state.bookPull >= req) {
+                badge.textContent = 'САЛЛАА! 🎉';
+                badge.className = 'bg-emerald-500/20 text-emerald-200 text-xs font-bold px-3.5 py-1.5 rounded-full border border-emerald-400/30 backdrop-blur-md';
+            } else {
+                badge.textContent = `${state.bookPages} хуудас нийлүүлсэн`;
+                badge.className = 'bg-indigo-500/20 text-indigo-200 text-xs font-bold px-3.5 py-1.5 rounded-full border border-indigo-400/30 backdrop-blur-md';
+            }
+        }
+
+        // ========== NEWSPAPER + CD ==========
+        const canvasNewspaper = document.getElementById('canvasNewspaper');
+        const ctxNewspaper = canvasNewspaper.getContext('2d');
+        state.newspaperMode = 'idle';
+        state.newspaperLiftForce = 600;
+
+        function drawNewspaper() {
+            if (state.activeTab !== 'tabNewspaper') return;
+            const c = ctxNewspaper, w = canvasNewspaper.width, h = canvasNewspaper.height, cx = w / 2;
+            state.time += 0.016;
+            const A = state.newspaperArea, req = A * 101300, F = state.newspaperLiftForce, mode = state.newspaperMode;
+            const lifts = mode === 'fast' && F >= req;
+            state.newspaperTransition += ((lifts ? 1 : 0) - state.newspaperTransition) * 0.05;
+            const L = state.newspaperTransition, fy = h - 70, half = 60 + A * 8000;
+            const pulse = Math.sin(state.time * 6) * 0.3 + 0.7;
+            const bg = c.createLinearGradient(0, 0, 0, h); bg.addColorStop(0, '#1a1a2e'); bg.addColorStop(1, '#0f0f1a');
+            c.fillStyle = bg; c.fillRect(0, 0, w, h);
+            c.fillStyle = '#a16207'; c.fillRect(30, fy, w - 60, 14); c.fillStyle = '#78350f'; c.fillRect(55, fy + 14, 16, h - fy - 14); c.fillRect(w - 71, fy + 14, 16, h - fy - 14);
+            const cy = fy - 3 - L * 110;
+            // CD under the paper centre
+            c.fillStyle = '#cbd5e1'; c.beginPath(); c.ellipse(cx, cy + 7, 40, 5, 0, 0, Math.PI * 2); c.fill();
+            c.fillStyle = '#0f172a'; c.beginPath(); c.ellipse(cx, cy + 7, 6, 1.5, 0, 0, Math.PI * 2); c.fill();
+            // paper
+            c.beginPath();
+            for (let dx = -half; dx <= half; dx += 6) {
+                const y = fy - 3 - L * 110 * Math.pow(Math.max(0, 1 - Math.abs(dx) / half), 1.3);
+                dx === -half ? c.moveTo(cx + dx, y) : c.lineTo(cx + dx, y);
+            }
+            c.strokeStyle = '#f5f0e1'; c.lineWidth = 6; c.lineCap = 'round'; c.stroke();
+            // string + hand
+            c.strokeStyle = '#e2e8f0'; c.lineWidth = 2; c.beginPath(); c.moveTo(cx, cy + 4); c.lineTo(cx, 62); c.stroke();
+            c.fillStyle = '#fbbf24'; const hy = mode === 'fast' ? 30 + Math.sin(state.time * 30) * 2 : 36; c.beginPath(); c.roundRect(cx - 18, hy, 36, 30, 8); c.fill();
+            // pressure arrows
+            const showDown = mode !== 'slow';
+            if (showDown) {
+                const a = mode === 'idle' ? 0.35 : pulse;
+                for (let i = 0; i < 9; i++) {
+                    const ax = cx - half + (i + 0.5) * (2 * half / 9);
+                    c.strokeStyle = c.fillStyle = `rgba(96, 165, 250, ${a})`; c.lineWidth = 3;
+                    c.beginPath(); c.moveTo(ax, fy - 105); c.lineTo(ax, fy - 22); c.stroke();
+                    c.beginPath(); c.moveTo(ax, fy - 12); c.lineTo(ax - 6, fy - 24); c.lineTo(ax + 6, fy - 24); c.closePath(); c.fill();
+                }
+            } else {
+                for (const sd of [-1, 1]) {
+                    c.strokeStyle = c.fillStyle = `rgba(52, 211, 153, ${pulse})`; c.lineWidth = 3;
+                    const x1 = cx + sd * (half + 70), x2 = cx + sd * (half - 40);
+                    c.beginPath(); c.moveTo(x1, fy - 6); c.lineTo(x2, fy - 6); c.stroke();
+                    c.beginPath(); c.moveTo(x2, fy - 6); c.lineTo(x2 + sd * 10, fy - 12); c.lineTo(x2 + sd * 10, fy); c.closePath(); c.fill();
+                }
+            }
+            c.textAlign = 'center'; c.font = 'bold 13px Inter, sans-serif';
+            c.fillStyle = '#93c5fd'; c.fillText(`⬇ Дээрээс дарах агаарын хүч ≈ ${Math.round(req).toLocaleString()} Н`, cx, h - 30);
+            const badge = document.getElementById('badgePaperState');
+            let txt = 'Бэлэн', col = 'amber';
+            if (mode === 'slow') { txt = '✅ Удаан татахад өргөгдөнө'; col = 'emerald'; c.fillStyle = '#34d399'; c.fillText('Агаар сонины доогуур орно → хүч тэнцэнэ', cx, 24); }
+            else if (mode === 'fast' && lifts) { txt = '✅ Өргөгдлөө (хүч хангалттай)'; col = 'emerald'; }
+            else if (mode === 'fast') { txt = '⛔ Сонин өргөгдсөнгүй'; col = 'rose'; c.fillStyle = '#fb7185'; c.fillText(`Сонин өргөгдөхгүй: татах хүч ${F} Н < агаарын хүч ${Math.round(req).toLocaleString()} Н`, cx, 24); }
+            badge.textContent = txt;
+            badge.className = `bg-${col}-500/20 text-${col}-200 text-xs font-bold px-3.5 py-1.5 rounded-full border border-${col}-400/30 backdrop-blur-md`;
+            document.getElementById('dispPaperArea').textContent = `${A.toFixed(3)} м² (${Math.round(A * 10000)} см²)`;
+            document.getElementById('dispPaperForce').textContent = `${Math.round(req).toLocaleString()} Н`;
+            document.getElementById('dispLiftForce').textContent = `${F} Н`;
+            document.getElementById('dispPaperAreaVal').textContent = `${A.toFixed(3)} м² (${Math.round(A * 10000)} см²)`;
+            document.getElementById('dispLiftForceVal').textContent = `${F} Н`;
+            const pa = ((A - 0.002) / 0.018) * 100, pl = (F / 1000) * 100;
+            document.getElementById('sliderPaperArea').style.background = `linear-gradient(90deg, #f59e0b 0%, #fbbf24 ${pa}%, rgba(148,163,184,0.3) ${pa}%, rgba(148,163,184,0.3) 100%)`;
+            document.getElementById('sliderLiftForce').style.background = `linear-gradient(90deg, #10b981 0%, #34d399 ${pl}%, rgba(148,163,184,0.3) ${pl}%, rgba(148,163,184,0.3) 100%)`;
+            requestAnimationFrame(drawNewspaper);
+        }
+        document.getElementById('sliderPaperArea').addEventListener('input', e => { state.newspaperArea = parseFloat(e.target.value); });
+        document.getElementById('sliderLiftForce').addEventListener('input', e => { state.newspaperLiftForce = parseInt(e.target.value); });
+        function pullNewspaper(mode) { state.newspaperMode = mode; }
+        function resetNewspaper() {
+            state.newspaperArea = 0.015; state.newspaperLiftForce = 600; state.newspaperTransition = 0; state.newspaperMode = 'idle';
+            document.getElementById('sliderPaperArea').value = 0.015; document.getElementById('sliderLiftForce').value = 600;
+        }
+
+        // ========== QUIZ: MENTIMETER ==========
+        const quizData = [
+            {
+                q: "1. Өндөр уулын орой дээр гарахад агаарын даралт яагаад буурдаг вэ?",
+                opts: ["А. Ууланд дулаан байдаг тул", "Б. Дээшлэх тусам дээрээс дарах агаарын багана ба татах хүч багасч агаар сийрэгжих тул", "В. Агаарын чийгшил ихссэн тул"],
+                correct: 1,
+                exp: "Зөв! Өндөр ахих тусам дээрээс дарах агаар сийрэгжиж агаарын даралт буурдаг."
+            },
+            {
+                q: "2. Халуун ус хийж таглаад хүйтэн усанд дүрсэн хуванцар сав яагаад агшдаг вэ?",
+                opts: ["А. Хуванцар хүйтэнд хатуурч хагарсан тул", "Б. Доторх уур хөрч шингэн болж, даралт буурсан тул гаднах агаарын даралт савыг шахдаг", "В. Хүйтэн ус савыг дотогш сорсон тул"],
+                correct: 1,
+                exp: "Зөв! Доторх халуун уур хөрч шингэн болж, агаар агшсанаар дотоод даралт буурна. Гаднах атмосферийн даралт савыг шахаж агшаана."
+            },
+            {
+                q: "3. Устай аягыг цаасаар таглаж доош нь хөмрөхөд цаас ба ус яагаад асгарахгүй тогтдог вэ?",
+                opts: ["А. Агаарын даралт ДЭЭШЭЭ чиглэлд цаасыг тулан түлхэж байдаг тул", "Б. Цаас усыг өөртөө наадаг тул", "В. Усны үрэлтээс болж"],
+                correct: 0,
+                exp: "Маш сайн! Агаарын даралт бүх чиглэлд (доороос дээшээ чиглэлд ч гэсэн) үйлчилдэг."
+            },
+            {
+                q: "4. Хэрэв 180° хөмөрсөн аяганаас цаасыг авбал юу болох вэ?",
+                opts: ["А. Юу ч болохгүй, ус хэвээр байна", "Б. Ус хүндийн хүчээр доош асгарна", "В. Ус дээшээ ниснэ"],
+                correct: 1,
+                exp: "Зөв! Цаас нь агаарын даралтыг тогтоож байсан тул цаасыг авахад агаарын даралт тэнцвэрээ алдаж, ус хүндийн хүчээр доош асгарна."
+            },
+            {
+                q: "5. Хоёр дэвтрийн хавтсыг хооронд нь нийлүүлж татахад яагаад салахгүй бөх наалддаг вэ?",
+                opts: ["А. Цаасны статик цахилгаанаас болж", "Б. Гаднах агаарын даралт бүх хуудсыг дээрээс ба доороос нь шахаж үрэлтийг ихэсгэдэг тул", "В. Дэвтрийн цаас наалдамхай тул"],
+                correct: 1,
+                exp: "Зөв! Гаднаас дарах агаарын даралт хуудаснуудыг шахаж, салгахын тулд асар их хүч шаарддаг."
+            },
+            {
+                q: "6. Хэвийн нөхцөлд далайн түвшин дэх агаарын даралт хэд вэ?",
+                opts: ["А. 1 кПа", "Б. 101.3 кПа (≈ 1 атм)", "В. 1000 кПа", "Г. 0.5 кПа"],
+                correct: 1,
+                exp: "Зөв! Далайн түвшинд хэвийн агаарын даралт нь 101.3 кПа буюу 760 мм мөнгөн усны баганатай тэнцдэг."
+            },
+            {
+                q: "7. Сонингийн төвд утсаар CD бэхэлж, ширээн дээр дэлгэсэн сонинг огцом дээш татахад өргөхөд юу саад болдог вэ?",
+                opts: ["А. Сонины хөнгөн жин", "Б. Сонин дээрх агаарын даралт (дээрээс дарах хүч)", "В. Утасны уян чанар"],
+                correct: 1,
+                exp: "Зөв! Огцом татахад сонины доор агаар орж амждаггүй, гаднах агаарын даралт сонинг дээрээс нь маш их хүчээр дарна."
+            },
+            {
+                q: "8. Өндөр уулын оройд мах яагаад болдоггүй вэ?",
+                opts: ["А. Хүйтэн байдаг тул", "Б. Агаарын даралт багассан тул ус 100°C-аас доош температурт буцалж, мах бүрэн чанахгүй", "В. Хүчилтөрөгч багатай тул", "Г. Махыг чанахад хэт их цаг зарцуулагддаг тул"],
+                correct: 1,
+                exp: "Зөв! Өндөрт агаарын даралт багасснаар ус 80-90°C-т буцалдаг. Энэ температур махыг бүрэн чанахад хүрэлцдэггүй тул мах болдоггүй."
+            }
+        ];
+
+        
+        const conclusions = [
+            ['Аяга ба цаас', 'Хөмөрсөн аяганы цаас яагаад унахгүй байв?', 'Агаарын даралт бүх чиглэлд, доороос дээш ч үйлчилдэг. Тиймээс цаас ба ус тогтсон.'],
+            ['Хуванцар сав', 'Халуун ус хийсэн савыг таглаад хүйтэн усанд дүрэхэд яагаад агшив?', 'Доторх уур хөрч даралт буурсан тул гаднах агаарын даралт савыг дотогш шахсан.'],
+            ['Сонин + CD', 'Сонинг дээш өргөхөд юу саад болов?', 'Сонин дээр агаарын даралт P·S ≈ 101 300 Па × S хүчээр дарж байгаа тул өргөгдөхгүй.'],
+            ['Дэвтэр нийлүүлэх', 'Нийлүүлсэн дэвтрүүд яагаад салахад хэцүү байв?', 'Агаарын даралт хуудсуудыг шахаж, үрэлтийн хүчийг маш их болгодог.'],
+            ['Өндөр ба даралт', 'Уулын өндрөөс хамаарч мах чанахад юу өөрчлөгддөг вэ?', 'Өндөр ахих тусам агаарын даралт буурч, ус бага хэмд буцална. Тиймээс уулын оройд мах удаан болно, эсвэл болохгүй.'],
+            ['Далайн түвшин', 'Далайн түвшинд агаарын даралт хэд вэ?', 'Ойролцоогоор 101.3 кПа буюу 1 атм, өөрөөр хэлбэл 760 мм мөнгөн усны баганын даралттай тэнцэнэ.'],
+            ['Агаарын молекул', 'Өндөрт гарахад агаарын молекулын нягт яаж өөрчлөгдөх вэ?', 'Агаар сийрэгжиж, молекулын нягт буурна. Иймээс агаарын даралт багасна.'],
+            ['Өдөр тутмын жишээ', 'Уулын өндөрт даралтат тогоо яагаад хэрэглэдэг вэ?', 'Тогоо дотор даралт ихэсдэг тул ус 100°C-аас дээш хэмд буцалж, мах хурдан болно.']
+        ];
+        function renderMentiList() {
+            document.getElementById('mentiList').innerHTML = conclusions.map((c, i) => `
+                <div class="rounded-xl p-3.5 border border-slate-700/50 bg-slate-800/40 space-y-2">
+                    <div class="text-[10px] font-bold text-blue-300 uppercase tracking-wider">${i + 1}. ${c[0]}</div>
+                    <div class="text-xs font-bold text-white">${c[1]}</div>
+                    ${i < 5 ? `<div id="predLine${i}" class="text-[11px]"></div>` : ''}
+                    <textarea rows="2" placeholder="Дүгнэлтээ өөрийн үгээр бич..." class="w-full px-3 py-2 bg-slate-900/60 border border-slate-700/60 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-400/50"></textarea>
+                    <details class="text-xs text-slate-300"><summary class="cursor-pointer text-emerald-300 font-bold">Дүгнэлтийг харах</summary><p class="mt-1.5 leading-relaxed">${c[2]}</p></details>
+                </div>`).join('') + `
+                <div class="rounded-xl p-4 border border-emerald-400/30 bg-emerald-500/10 text-xs text-emerald-200 leading-relaxed"><b>Нийт дүгнэлт:</b> Агаарын даралт бүх чиглэлд үйлчилнэ, өндөр ахих тусам буурна, мөн их талбайд асар их хүч үүсгэнэ.</div>`;
+        }
+        const predKeys = ['tabGlass', 'tabCan', 'tabNewspaper', 'tabBook', 'tabAlt'];
+        const predictions = {
+            tabAlt: ['Уулын өндөрт гарахад мах чанахад юу болох вэ?', ['Хурдан болно', 'Адилхан болно', 'Удаан болно, эсвэл болохгүй'], 2],
+            tabCan: ['Халуун ус хийж таглаад хүйтэн усанд дүрвэл сав юу болох вэ?', ['Тэлнэ', 'Агшина', 'Өөрчлөгдөхгүй'], 1],
+            tabGlass: ['Устай аягыг цаасаар таглаж хөмрөхөд юу болох вэ?', ['Ус асгарна', 'Ус асгарахгүй', 'Цаас норно'], 1],
+            tabBook: ['Хавтсыг хооронд нь нийлүүлсэн хоёр дэвтрийг татахад юу болох вэ?', ['Амархан сална', 'Хүндрэлтэй сална', 'Хуудас бүр өөрөө сална'], 1],
+            tabNewspaper: ['Ширээн дээрх сонинг утсаар дээш татахад юу болох вэ?', ['Амархан өргөгдөнө', 'Өргөгдөхгүй', 'Сонин урагдана'], 1]
+        };
+        state.pred = {};
+        function buildPredictions() {
+            predKeys.forEach(k => {
+                const sec = document.getElementById(k), q = predictions[k][0], opts = predictions[k][1];
+                const d = document.createElement('div');
+                d.className = 'glass-card rounded-3xl p-5 border border-violet-500/30';
+                d.innerHTML = `<div class="text-[10px] font-bold text-violet-300 uppercase tracking-wider mb-1">🔮 Таамаглал</div>
+                    <div class="text-sm font-bold text-white mb-3">${q}</div>
+                    <div class="flex flex-wrap gap-2">${opts.map((o, i) => `<button data-i="${i}" class="pred-btn px-4 py-2 rounded-xl border border-slate-700/60 bg-slate-800/60 text-xs font-bold text-slate-200 hover:border-violet-400/60">${o}</button>`).join('')}</div>
+                    <p class="pred-note text-[11px] text-slate-400 mt-3">Эхлээд таамагла, дараа нь туршилтаа хий.</p>`;
+                d.querySelectorAll('.pred-btn').forEach(b => b.onclick = () => {
+                    state.pred[k] = +b.dataset.i;
+                    d.querySelectorAll('.pred-btn').forEach(x => { x.disabled = true; if (x === b) x.classList.add('border-violet-400', 'text-violet-200'); });
+                    d.querySelector('.pred-note').textContent = '✓ Таамаглал бүртгэгдлээ. Одоо туршилтаа хийж, «Дүгнэлт» хэсэгт харьцуул.';
+                });
+                sec.insertBefore(d, sec.firstChild);
+            });
+        }
+        function updatePredLines() {
+            predKeys.forEach((k, i) => {
+                const el = document.getElementById('predLine' + i);
+                if (!el) return;
+                const p = state.pred[k], opts = predictions[k][1], ok = predictions[k][2];
+                el.innerHTML = p === undefined ? '<span class="text-slate-500">Таамаглал хийгээгүй</span>'
+                    : `Таамаглал: <b class="text-white">${opts[p]}</b> — ` + (p === ok ? '<span class="text-emerald-300 font-bold">✓ тохирсон</span>' : '<span class="text-rose-300 font-bold">✗ тохироогүй: яагаад өөр болсныг ярилц</span>');
+            });
+        }
+        function openMenti() {
+            const v = document.getElementById('mentiCode').value.trim(), err = document.getElementById('mentiErr');
+            if (!v) { err.classList.remove('hidden'); return; }
+            err.classList.add('hidden');
+            const url = /^https?:\/\//i.test(v) ? v : 'https://www.menti.com/' + v.replace(/^.*menti\.com\//i, '').replace(/\s+/g, '');
+            window.open(url, '_blank', 'noopener');
+        }
+        function copyMentiQuestions() {
+            const txt = ['Word Cloud: Агаарын даралтыг нэг үгээр тайлбарла', 'Poll: Таны таамаглал хэдэн туршилтад зөв байв? (0–1 / 2–3 / 4–5)', 'Open Ended: Хамгийн гайхсан туршилт аль нь вэ, яагаад?', 'Open Ended: Агаарын даралтын тухай нэг дүгнэлтээ бич', 'Ranking: Агаарын даралтыг хамгийн сайн нотолсон туршилтыг эрэмбэл'].join('\n');
+            const b = document.getElementById('btnCopyMenti');
+            (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => { b.textContent = 'Хуулагдлаа ✓'; }).catch(() => { b.textContent = 'Хуулах боломжгүй'; });
+        }
+
+        // ============================================================
+        
+        // ================= INIT =================
+        window.onload = function() {
+            initParticles();
+            updateBookMetrics();
+            updateBookSliderGradients();
+            document.getElementById('sliderAltVal').style.background = `linear-gradient(90deg, #3b82f6 0%, #8b5cf6 0%, rgba(148, 163, 184, 0.3) 0%, rgba(148, 163, 184, 0.3) 100%)`;
+            document.getElementById('sliderGlassAngle').style.background = `linear-gradient(90deg, #06b6d4 0%, #3b82f6 0%, rgba(148, 163, 184, 0.3) 0%, rgba(148, 163, 184, 0.3) 100%)`;
+            document.getElementById('sliderPaperArea').style.background = `linear-gradient(90deg, #f59e0b 0%, #fbbf24 33%, rgba(148, 163, 184, 0.3) 33%, rgba(148, 163, 184, 0.3) 100%)`;
+            document.getElementById('sliderLiftForce').style.background = `linear-gradient(90deg, #10b981 0%, #34d399 0%, rgba(148, 163, 184, 0.3) 0%, rgba(148, 163, 184, 0.3) 100%)`;
+            drawAltSim();
+            buildPredictions();
+            switchTabRaw('tabGlass');
+            renderMentiList();
+            updatePredLines();
+        };
+    </script>
+
+<script>
+// ================= ДАРААЛСАН ГАРЫН АВЛАГА (алхам алхмаар) =================
+const STEPS = ['tabGlass','tabCan','tabNewspaper','tabBook','tabAlt','tabQuiz'];
+const BTN_IDS = {tabAlt:'btnTabAlt',tabCan:'btnTabCan',tabGlass:'btnTabGlass',tabBook:'btnTabBook',tabNewspaper:'btnTabNewspaper',tabQuiz:'btnTabQuiz'};
+const TASKS = {
+    tabAlt: 'Өндрийн гулсуурыг 4000 м ба түүнээс дээш болгож, мах чанах хугацаа хэрхэн өөрчлөгдөхийг ажигла.',
+    tabCan: '«1. Халуун ус хийх» → «2. Таглаж хүйтэн усанд дүрэх» дарж савыг агшаа.',
+    tabGlass: 'Аягыг 180° хөмрөөд, дараа нь «Цаасыг авах» товчийг дар.',
+    tabBook: 'Татах хүчийг «Салгах хүч»-ээс их болгож дэвтрийг салга.',
+    tabNewspaper: 'Сонины талбайг багасгаж, их болгож «Утсыг татах» дараад ялгааг ажигла.'
+};
+const NEXT_LABEL = {tabGlass:'Туршилт 2 рүү', tabCan:'Туршилт 3 рүү', tabNewspaper:'Туршилт 4 рүү', tabBook:'Туршилт 5 рүү', tabAlt:'Дүгнэлт харах'};
+state.done = {};
+state.maxAlt = 0;
+
+function stepUnlocked(id) {
+    const i = STEPS.indexOf(id);
+    return STEPS.slice(0, i).every(s => state.done[s]);
+}
+
+function switchTab(id) {
+    if (!stepUnlocked(id)) {
+        const flash = document.querySelector('[data-nextbar="' + state.activeTab + '"]');
+        if (flash) { flash.classList.add('ring-2','ring-amber-400'); setTimeout(() => flash.classList.remove('ring-2','ring-amber-400'), 700); }
+        return;
+    }
+    switchTabRaw(id);
+    tickProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkDone() {
+    state.maxAlt = Math.max(state.maxAlt, state.altMeters);
+    if (state.maxAlt >= 4000) state.done.tabAlt = true;
+    if (state.canState === 'crushed') state.done.tabCan = true;
+    if (state.glassPaperRemoved) state.done.tabGlass = true;
+    if (state.bookPull >= state.bookPages * 25) state.done.tabBook = true;
+    if (state.newspaperMode === 'fast') state.done.tabNewspaper = true;
+}
+
+function buildNextBars() {
+    STEPS.slice(0, 5).forEach((id, i) => {
+        const sec = document.getElementById(id);
+        const bar = document.createElement('div');
+        bar.dataset.nextbar = id;
+        bar.className = 'glass-card rounded-3xl p-4 md:p-5 flex items-center justify-between gap-4 flex-wrap transition';
+        bar.innerHTML =
+            '<div class="flex items-start gap-3 min-w-0">' +
+              '<span class="nb-icon w-9 h-9 shrink-0 rounded-xl bg-slate-800/70 border border-slate-700/60 flex items-center justify-center text-slate-400"><i class="fa-solid fa-lock text-sm"></i></span>' +
+              '<div class="min-w-0"><div class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Алхам ' + (i + 1) + ' / 6</div>' +
+              '<div class="nb-text text-xs text-slate-300 leading-relaxed">' + TASKS[id] + '</div></div>' +
+            '</div>' +
+            '<button class="nb-btn action-btn px-5 py-3 rounded-xl font-extrabold text-xs flex items-center gap-2 whitespace-nowrap bg-slate-800/60 text-slate-500 border border-slate-700/60 cursor-not-allowed" disabled>' +
+              NEXT_LABEL[id] + ' <i class="fa-solid fa-arrow-right"></i></button>';
+        bar.querySelector('.nb-btn').addEventListener('click', () => switchTab(STEPS[i + 1]));
+        sec.appendChild(bar);
+    });
+}
+
+function tickProgress() {
+    checkDone();
+    // next bars
+    STEPS.slice(0, 5).forEach(id => {
+        const bar = document.querySelector('[data-nextbar="' + id + '"]');
+        if (!bar) return;
+        const ok = !!state.done[id];
+        const btn = bar.querySelector('.nb-btn'), icon = bar.querySelector('.nb-icon'), txt = bar.querySelector('.nb-text');
+        btn.disabled = !ok;
+        btn.className = 'nb-btn action-btn px-5 py-3 rounded-xl font-extrabold text-xs flex items-center gap-2 whitespace-nowrap ' +
+            (ok ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/30 pulse-glow'
+                : 'bg-slate-800/60 text-slate-500 border border-slate-700/60 cursor-not-allowed');
+        icon.className = 'nb-icon w-9 h-9 shrink-0 rounded-xl flex items-center justify-center border ' +
+            (ok ? 'bg-emerald-500/20 border-emerald-400/40 text-emerald-300' : 'bg-slate-800/70 border-slate-700/60 text-slate-400');
+        icon.innerHTML = ok ? '<i class="fa-solid fa-check text-sm"></i>' : '<i class="fa-solid fa-lock text-sm"></i>';
+        txt.className = 'nb-text text-xs leading-relaxed ' + (ok ? 'text-emerald-300 font-bold' : 'text-slate-300');
+        txt.textContent = ok ? '✓ Энэ хэсэг дууслаа. Дараагийн хэсэг рүү орж болно.' : TASKS[id];
+    });
+    // nav lock state
+    STEPS.forEach(id => {
+        const b = document.getElementById(BTN_IDS[id]);
+        const locked = !stepUnlocked(id);
+        b.classList.toggle('opacity-40', locked);
+        b.classList.toggle('cursor-not-allowed', locked);
+        let lk = b.querySelector('.lockmark');
+        if (locked && !lk) { lk = document.createElement('i'); lk.className = 'fa-solid fa-lock lockmark text-[10px]'; b.appendChild(lk); }
+        if (!locked && lk) lk.remove();
+    });
+    // progress bar
+    const doneCount = STEPS.slice(0, 5).filter(s => state.done[s]).length;
+    const cur = Math.min(STEPS.indexOf(state.activeTab) + 1, 6);
+    const pct = Math.round((doneCount / 5) * 100);
+    const t = document.getElementById('progText'), f = document.getElementById('progFill');
+    if (t) t.textContent = 'Алхам ' + cur + ' / 6 · ' + doneCount + '/5 туршилт дууссан';
+    if (f) f.style.width = pct + '%';
+}
+
+window.addEventListener('load', () => {
+    buildNextBars();
+    const nav = document.querySelector('header nav');
+    nav.parentElement.insertAdjacentHTML('beforeend',
+        '<div class="pb-3 -mt-1"><div class="flex justify-between text-[10px] font-bold text-slate-400 mb-1.5"><span id="progText"></span><span>Эцэст нь дүгнэлт</span></div>' +
+        '<div class="h-1.5 rounded-full bg-slate-800 overflow-hidden"><div id="progFill" class="h-full rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-400 transition-all duration-700" style="width:0%"></div></div></div>');
+    tickProgress();
+    setInterval(tickProgress, 300);
+});
+</script>
+
+<script>
+(function(){
+    const wrap = document.createElement('div');
+    wrap.className = 'fixed z-[60] right-4 bottom-4 md:right-6 md:bottom-6 flex items-center gap-2';
+    wrap.innerHTML =
+      '<button id="fabPrev" title="Өмнөх хэсэг" class="hidden w-12 h-12 rounded-full bg-slate-800/90 border border-slate-600/60 text-slate-200 backdrop-blur-md shadow-lg flex items-center justify-center hover:bg-slate-700"><i class="fa-solid fa-arrow-left"></i></button>' +
+      '<button id="fabNext" title="Дараагийн хэсэг" class="hidden pulse-glow h-14 pl-5 pr-4 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-extrabold text-sm shadow-xl shadow-emerald-500/40 flex items-center gap-2 hover:scale-105 transition"><span id="fabNextText">Дараагийн шат</span><i class="fa-solid fa-arrow-right text-lg"></i></button>';
+    document.body.appendChild(wrap);
+    const prev = wrap.querySelector('#fabPrev'), next = wrap.querySelector('#fabNext'), nt = wrap.querySelector('#fabNextText');
+    prev.onclick = () => { const i = STEPS.indexOf(state.activeTab); if (i > 0) switchTab(STEPS[i-1]); };
+    next.onclick = () => { const i = STEPS.indexOf(state.activeTab); if (i < STEPS.length-1) switchTab(STEPS[i+1]); };
+    setInterval(() => {
+        const i = STEPS.indexOf(state.activeTab), id = STEPS[i];
+        prev.classList.toggle('hidden', i <= 0);
+        const show = i < STEPS.length - 1 && !!state.done[id];
+        next.classList.toggle('hidden', !show);
+        if (show) nt.textContent = i === 4 ? 'Дүгнэлт харах' : 'Дараагийн шат';
+    }, 250);
+})();
+</script>
+</body>
+</html>
